@@ -1,0 +1,25 @@
+﻿@{
+    var pageTitle = ViewData["Title"] ?? "فرماندهی بهداری ندسا";
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <link href="~/css/site.min.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/Kendo.min.css" rel="stylesheet" asp-append-version="true" />
+    <script src="~/js/site.min.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="~/js/Kendo.min.js" type="text/javascript" asp-append-version="true"></script>
+    <script type="text/javascript">
+    // to use kendo.culture.fa-IR.js
+        kendo.culture("fa-IR");</script>
+</head>
+<body style="padding-top: 10px;padding-bottom: 5px;min-height:500PX;">
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-12 col-md-push-0">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

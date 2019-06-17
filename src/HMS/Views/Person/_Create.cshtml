@@ -1,0 +1,192 @@
+﻿@model HMS.ViewModels.App.InsertPersonViewModel
+<div class="row k-rtl">
+    <div class="col-md-12">
+        <form asp-action="Create" data-ajax="true" data-ajax-method="POST" data-ajax-success="OnSuccess">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" lang="fa-IR" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" lang="fa-IR" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label asp-for="FatherName" class="control-label"></label>
+                        <input asp-for="FatherName" lang="fa-IR" class="form-control" />
+                        <span asp-validation-for="FatherName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label asp-for="MotherName" class="control-label"></label>
+                        <input asp-for="MotherName" lang="fa-IR" class="form-control" />
+                        <span asp-validation-for="MotherName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label asp-for="IdentityNumber" class="control-label"></label>
+                        <input asp-for="IdentityNumber" class="form-control" />
+                        <span asp-validation-for="IdentityNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <label asp-for="IdentitySeries" class="control-label"></label>
+                            </div>
+                            <div class="col-xs-4">
+                                <label asp-for="IdentitySeriesNumber" class="control-label"></label>
+                            </div>
+                            <div class="col-xs-4">
+                                <label asp-for="IdentitySerial" class="control-label"></label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <select asp-for="IdentitySeries" class="form-control">
+                                    <option disabled selected>--- انتخاب ---</option>
+                                    <option value="الف">الف</option>
+                                    <option value="ب">ب</option>
+                                    <option value="ج">ج</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-4">
+                                <input asp-for="IdentitySeriesNumber" class="form-control" />
+                            </div>
+                            <div class="col-xs-4">
+                                <input asp-for="IdentitySerial" class="form-control" />
+                            </div>
+                        </div>
+                        <span asp-validation-for="IdentitySeries" class="text-danger"></span>
+                        <span asp-validation-for="IdentitySeriesNumber" class="text-danger"></span>
+                        <span asp-validation-for="IdentitySerial" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label asp-for="NationalCode" class="control-label"></label>
+                        <input asp-for="NationalCode" class="form-control" />
+                        <span asp-validation-for="NationalCode" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label asp-for="BrithDate" class="control-label"></label>
+                        <kendo-datepicker name="BrithDate" format="yyyy/MM/dd" style="width:100%;direction: rtl" />
+                        <span asp-validation-for="BrithDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label asp-for="Sex" class="control-label"></label>
+                        <select asp-for="Sex" asp-items="Html.GetEnumSelectList<Sex>()" class="form-control">
+                            <option disabled selected>--- انتخاب ---</option>
+                        </select>                        <span asp-validation-for="Sex" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <label asp-for="Religion" class="control-label"></label>
+                                <select asp-for="Religion" asp-items="Html.GetEnumSelectList<Religion>()" class="form-control">
+                                    <option disabled selected>--- انتخاب ---</option>
+                                </select>
+                                <span asp-validation-for="Religion" class="text-danger"></span>
+                            </div>
+                            <div class="col-xs-6">
+                                <label asp-for="Denomation" class="control-label"></label>
+                                <select asp-for="Denomation" asp-items="Html.GetEnumSelectList<Denomation>()" class="form-control">
+                                    <option disabled selected>--- انتخاب ---</option>
+                                </select>
+                                <span asp-validation-for="Denomation" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label asp-for="BrithPlaceProvianceId" class="control-label"></label>
+                        <kendo-dropdownlist for="BrithPlaceProvianceId"
+                                            no-data-template="داده ای یافت نگردید"
+                                            datatextfield="Title" datavaluefield="Id"
+                                            filter="FilterType.Contains" min-length="1"
+                                            option-label="انتخاب استان"
+                                            class="form-control" style="width:100%">
+                            <datasource type="DataSourceTagHelperType.Custom"
+                                        page-size="32">
+                                <transport>
+                                    <read url="@Url.Action("GetBaseInformation","BaseInformation",new {id=1})" />
+                                </transport>
+                            </datasource>
+                            <popup-animation>
+                                <open duration="200" />
+                                <close duration="300" />
+                            </popup-animation>
+                        </kendo-dropdownlist>
+                        <span asp-validation-for="BrithPlaceProvianceId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <label asp-for="BrithPlaceCityId" class="control-label"></label>
+                        <kendo-dropdownlist for="BrithPlaceCityId"
+                                            no-data-template="داده ای یافت نگردید"
+                                            auto-bind="false"
+                                            enable="false" cascade-from="HabitadProvianceId"
+                                            datatextfield="Title" datavaluefield="Id"
+                                            filter="FilterType.Contains" min-length="1"
+                                            option-label="انتخاب شهر"
+                                            class="form-control" style="width:100%">
+                            <datasource type="DataSourceTagHelperType.Custom"
+                                        page-size="32" server-filtering="true">
+                                <transport>
+                                    <read url="@Url.Action("GetBaseInformation", "BaseInformation", new {id=1})" data="CityUrl" />
+                                </transport>
+                            </datasource>
+                            <popup-animation>
+                                <open duration="200" />
+                                <close duration="300" />
+                            </popup-animation>
+                        </kendo-dropdownlist>
+                        <span asp-validation-for="BrithPlaceCityId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary" />
+                <a class="btn btn-danger" href="javascript:parent.jQuery.fancybox.close();" style="cursor: pointer; text-decoration: none; ">بستن</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    function CityUrl() {
+        return {
+            parentid: (BrithPlaceProvianceId).value
+        };
+    }
+</script>
+<style>
+    .k-dropdowntree {
+        width: 100%;
+    }
+</style>

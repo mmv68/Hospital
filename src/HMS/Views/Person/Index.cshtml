@@ -1,0 +1,171 @@
+﻿@{
+    ViewData["Title"] = "لیست سرمایه انسانی";
+}
+<div class="k-rtl">
+@(Html.Kendo().DataSource<InsertPersonViewModel>()
+  .Name("PersonDataSource")
+  .Ajax(dataSource => dataSource
+      //.Create(create => create.Action("SetPerson", "Person"))
+      .Read(read => read.Action("GetPersons", "Person"))
+      //.Update(update => update.Action("UpdatePerson", "Person"))
+      //.Destroy(destroy => destroy.Action("RemovePerson", "Person"))
+      .ServerOperation(false)
+      .PageSize(50)
+  )
+)
+@(Html.Kendo().Grid<InsertPersonViewModel>()
+  .Name("PersonGrid")
+  .Columns(columns =>
+  {
+      columns.Bound(e => e.FirstName).Width(130);
+      columns.Bound(e => e.LastName).Width(150);
+      columns.Bound(e => e.FatherName).Width(130);
+      columns.Bound(e => e.NationalCode).Width(130).Filterable(x => x.Extra(false));
+      columns.Bound(e => e.IdentityNumber).Width(160).Filterable(x => x.Extra(false));
+      columns.Bound(e => e.Age).Width(100).Editable("false");
+      columns.Bound(e => e.Age).Title("عملیات").ClientTemplate("<button class='btn btn-mini dropdown-toggle' data-toggle='dropdown'>" +
+                                                                             "<i class='fas fa-th'></i> <span class='caret'></span></button><ul class='dropdown-menu'>" +
+                                                                             "<li onclick='EditPerson(#= Id #)'><i class='fas fa-pencil-alt'></i> <span class='Menuli'>ویرایش</span></li>" +
+                                                                             "<li onclick='DeletePerson(#= Id #)'><i class='fa red fa-window-close'></i> <span class='Menuli'>حذف</span></li>" +
+                                                                             "<li onclick='Family(#= Id #)'><i class='fas fa-tasks'></i><span class='Menuli'>نمایش</span></li>" +
+                                                                             "</ul>").Filterable(x => x.Enabled(false)).Width(100);
+
+  })
+  .ToolBar(toolbar =>
+  {
+      toolbar.Excel().Text("اکسل");
+      toolbar.Custom().Text("ایجاد").Name("InsertPerson");
+      toolbar.Custom().Text("ذخیره تنظیمات").Name("SaveGridSetting");
+
+  })
+  .Excel(x => x.FileName("لیست سرمایه انسانی.xlsx")
+      .Filterable(true)
+      .AllPages(true))
+  .Resizable(resize => resize.Columns(true))
+  .Reorderable(reorder => reorder.Columns(true))
+  //.Selectable(selectable =>
+  //{
+  //    //selectable.Mode(GridSelectionMode.Multiple);
+  //    selectable.Type(GridSelectionType.Row);
+  //})
+  .PersistSelection(true)
+  .Groupable()
+  .Pageable(pageable => pageable
+      .Refresh(true)
+      .Input(true)
+      .ButtonCount(5)
+      .PageSizes(new[] { 10, 20, 30, 40, 50, 100 })
+  )
+  .Navigatable()
+  .AllowCopy(true)
+  .Sortable(sortable =>
+  {
+      sortable.SortMode(GridSortMode.MultipleColumn);
+  })
+  .Filterable(x => x
+      .Messages(c => c
+          .Search("جستجو")
+          .SelectValue("انتخاب شده ها")
+          .Info("مشخصات")
+          .SelectedItemsFormat("تعداد انتخاب ها:{0}")
+      )
+  )
+  .Scrollable()
+  .DataSource("PersonDataSource")
+)
+    <script>
+        $(document).ready(function () {
+
+        });
+        //show server errors if any
+        function error_handler(e) {
+            if (e.errors) {
+                var message = "Errors:\n";
+                $.each(e.errors, function (key, value) {
+                    if ('errors' in value) {
+                        $.each(value.errors, function () {
+                            message += this + "\n";
+                        });
+                    }
+                });
+                alert(message);
+            }
+        }
+        $(function () {
+            var grid = $("#PersonGrid").data("kendoGrid");
+
+            $(".k-grid-SaveGridSetting").click(function (e) {
+                e.preventDefault();
+                localStorage["PersonGrid-options"] = kendo.stringify(grid.getOptions());
+            });
+
+            $(".k-grid-InsertPerson").click(function (e) {
+                e.preventDefault();
+                $.fancybox.open({
+                    src: '@Url.Action("Create")',
+                    type: 'iframe',
+                    opts: {
+                        afterClose: function (instance, current, e) {
+                            $('#PersonGrid').data('kendoGrid').dataSource.read();
+                        }
+                    }
+                });
+            });
+
+            function loadGridSetting (e) {
+                e.preventDefault();
+                var options = localStorage["PersonGrid-options"];
+                if (options) {
+                    grid.setOptions(Json.parse(options));
+                }
+            }
+        });
+    </script>
+    
+</div>
+<script type="text/javascript">
+    function EditPerson(id) {
+        $.fancybox.open({
+            src: '@Url.Action("Edit")/'+id,
+            type: 'iframe',
+            opts: {
+                afterClose: function (instance, current, e) {
+                    $('#PersonGrid').data('kendoGrid').dataSource.read();
+                }
+            }
+        });
+    }
+
+    function DeletePerson(id) {
+        $.fancybox.open({
+            src: '@Url.Action("Delete")/'+id,
+            type: 'iframe',
+            opts: {
+                afterClose: function (instance, current, e) {
+                    $('#PersonGrid').data('kendoGrid').dataSource.read();
+                }
+            }
+        });
+    }
+</script>
+
+<style>
+    #PersonGrid .k-grid-content, #PersonGrid tr td, #PersonGrid tr th {
+        overflow: visible;
+    }
+    ul.dropdown-menu {
+        top: auto;
+        right: auto;
+        background: #f5f5f5;
+        padding-right: 5px;
+    }
+    #dropdown-menu span {
+        padding-right: 5px;
+    }
+    span.Menuli {
+        padding-right: 7px;
+    }
+    li:hover {
+        background-color: #ebebeb;
+    }
+</style>

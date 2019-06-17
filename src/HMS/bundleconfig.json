@@ -1,0 +1,85 @@
+[
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "node_modules/bootstrap/dist/css/bootstrap.min.css",
+      //"node_modules/jquery-ui/themes/base/all.css.css",
+      "node_modules/bootstrap-rtl/dist/css/bootstrap-rtl.min.css",
+      "node_modules/components-font-awesome/css/fa-solid.min.css",
+      "node_modules/components-font-awesome/css/fontawesome.min.css",
+      "node_modules/pace-progressbar/themes/blue/pace-theme-mac-osx.css",
+      "node_modules/select2/dist/css/select2.min.css",
+      "node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.css",
+      "content/custom.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false,
+      "adjustRelativePaths": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/css/Kendo.min.css",
+    "inputFiles": [
+      "node_modules/kendo/css/web/kendo.common-bootstrap.min.css",
+      "node_modules/kendo/css/web/kendo.bootstrap.min.css",
+      "node_modules/kendo/css/web/kendo.rtl.min.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": false,
+      "adjustRelativePaths": false
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "node_modules/jquery/dist/jquery.min.js",
+      //"node_modules/jquery-ui/jquery-ui.min.js",
+      "node_modules/jquery-validation/dist/jquery.validate.min.js",
+      "node_modules/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js",
+      "node_modules/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js",
+      "node_modules/bootstrap/dist/js/bootstrap.min.js",
+      "node_modules/sweetalert2/dist/sweetalert2.all.min.js",
+      "node_modules/select2/dist/js/select2.full.min.js",
+      "node_modules/select2/dist/js/i18n/fa.js",
+      "node_modules/@fancyapps/fancybox/dist/jquery.fancybox.js",
+      "node_modules/pace-progressbar/pace.min.js",
+      "scripts/jquery.bootstrap-modal-confirm.js",
+      "scripts/jquery.bootstrap-modal-alert.js",
+      "scripts/jquery.bootstrap-modal-ajax-form.js",
+      "scripts/FarsiType.js",
+      "scripts/custom.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  },
+  {
+    "outputFileName": "wwwroot/js/Kendo.min.js",
+    "inputFiles": [
+      "node_modules/Kendo/js/jszip.min.js",
+      "node_modules/Kendo/kendoPersianCalendar/JalaliDate.min.js",
+      "node_modules/Kendo/kendoPersianCalendar/kendo.web.min.js",
+      "node_modules/Kendo/js/kendo.dropdowntree.min.js",
+      "node_modules/Kendo/kendoPersianCalendar/fa-IR.min.js",
+      "node_modules/Kendo/kendoPersianCalendar/kendo.calendar.min.js",
+      "node_modules/Kendo/kendoPersianCalendar/kendo.datepicker.min.js",
+      "node_modules/Kendo/cultures/kendo.culture.fa-IR.min.js",
+      "node_modules/Kendo/cultures/kendo.culture.fa.min.js",
+      "node_modules/Kendo/messages/kendo.messages.fa-IR.min.js",
+      "node_modules/moment/min/moment.min.js",
+      "node_modules/moment-jalaali/build/moment-jalaali.js",
+      "node_modules/Kendo/js/kendo.aspnetmvc.min.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]

@@ -1,0 +1,101 @@
+﻿@model HMS.ViewModels.App.EditPersonViewModel
+
+@{
+    ViewData["Title"] = "ویرایش سرمایه انسانی";
+    Layout = "_EditLayout";
+}
+<script type="text/javascript">
+    function OnSuccess(response) {
+        if (response == "success") {
+            swal({
+                position: 'center',
+                type: 'success',
+                title: 'اطلاعات با موفقیت ویرایش شد',
+                showConfirmButton: false,
+                target: document.getElementById('rtl-container'),
+                timer: 2500
+            })
+            setTimeout("parent.jQuery.fancybox.close()", 2000);
+        } else {
+            swal({
+                position: 'center',
+                type: 'error',
+                title: 'لطفاً خطاهای اتفاق افتاده را بررسی نمایید',
+                showConfirmButton: false,
+                target: document.getElementById('rtl-container'),
+                timer: 2500
+            })
+        }
+    }
+</script>
+<h4>اطلاعات سرمایه انسانی</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit" data-ajax="true" data-ajax-method="POST" data-ajax-success="OnSuccess">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Timestamp" />
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" lang="fa-IR" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" lang="fa-IR" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label asp-for="FatherName" class="control-label"></label>
+                        <input asp-for="FatherName" lang="fa-IR" class="form-control" />
+                        <span asp-validation-for="FatherName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label asp-for="IdentityNumber" class="control-label"></label>
+                        <input asp-for="IdentityNumber" class="form-control" />
+                        <span asp-validation-for="IdentityNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row k-rtl">
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label asp-for="NationalCode" class="control-label"></label>
+                        <input asp-for="NationalCode" class="form-control" />
+                        <span asp-validation-for="NationalCode" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="form-group">
+                        <label asp-for="BrithDate" class="control-label"></label>
+                        <input asp-for="BrithDate" class="form-control" style="width:100%" />
+                        <span asp-validation-for="BrithDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary" />
+                <a class="btn btn-danger" href="javascript:parent.jQuery.fancybox.close();" style="cursor: pointer; text-decoration: none; ">بستن</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    function CityUrl() {
+        return {
+            parentid: (HabitadProvianceId).value
+        };
+    }
+    kendo.syncReady(function () { jQuery("#BrithDate").kendoDatePicker({ "format": "yyyy/MM/dd" }); });
+</script>

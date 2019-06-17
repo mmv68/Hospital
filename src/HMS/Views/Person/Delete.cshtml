@@ -1,0 +1,81 @@
+﻿@model HMS.ViewModels.App.InsertPersonViewModel
+@{
+    ViewData["Title"] = "حذف سرمایه انسانی";
+    Layout = "_EditLayout";
+}
+<script type="text/javascript">
+    function OnSuccess(response) {
+        if (response == "success") {
+            swal({
+                position: 'center',
+                type: 'error',
+                title: 'اطلاعات با موفقیت حذف شد',
+                showConfirmButton: false,
+                target: document.getElementById('rtl-container'),
+                timer: 2500
+            })
+            setTimeout("parent.jQuery.fancybox.close()", 2000);
+        } else {
+            swal({
+                position: 'center',
+                type: 'error',
+                title: 'لطفاً خطاهای تفاق افتاده را بررسی نمایید',
+                showConfirmButton: false,
+                target: document.getElementById('rtl-container'),
+                timer: 2500
+            })
+        }
+    }
+</script>
+<h3>آیا با حذف اطلاعات زیر به صورت کامل از سیستم موافقید؟</h3>
+<div>
+    <h4>اطلاعات سرمایه انسانی</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FatherName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FatherName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IdentityNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IdentityNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NationalCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NationalCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BrithDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BrithDate)
+        </dd>
+        
+    </dl>
+    
+    <div style="float:right;">
+        <form asp-action="Delete" data-ajax="true" data-ajax-method="POST" data-ajax-success="OnSuccess">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="حذف" class="btn btn-primary" /> |
+            <a class="btn btn-danger" href="javascript:parent.jQuery.fancybox.close();" style="cursor: pointer; text-decoration: none; ">بستن</a>
+        </form>
+    </div>
+</div>
