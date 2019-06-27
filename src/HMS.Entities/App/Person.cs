@@ -19,6 +19,8 @@
         public Person()
         {
             Children=new HashSet<Person>();
+            PersonEducation=new HashSet<PersonEducation>();
+            PersonMarriage=new HashSet<PersonMarriage>();
         }
         #endregion
 
@@ -109,6 +111,18 @@
         /// </summary>
         [ForeignKey("BrithPlaceProvianc")]
         public int? BrithPlaceProvianceId { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the شناسه شهرستان محل تولد
+        /// </summary>
+        [ForeignKey("BrithPlaceTownship")]
+        public int? BrithPlaceTownshipId { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the شناسه بخش محل تولد
+        /// </summary>
+        [ForeignKey("BrithPlaceSection")]
+        public int? BrithPlaceSectionId { get; set; }
 
         /// <summary>
         /// Gets or sets the شناسه شهر محل تولد
@@ -164,6 +178,16 @@
         /// Gets or sets the استان محل تولد
         /// </summary>
         public virtual BaseInformation BrithPlaceProviance { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the شهرستان محل تولد
+        /// </summary>
+        public virtual BaseInformation BrithPlaceTownship { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the بخش محل تولد
+        /// </summary>
+        public virtual BaseInformation BrithPlaceSection { get; set; }
 
         /// <summary>
         /// Gets or sets the شهر محل تولد 
@@ -173,7 +197,22 @@
         /// <summary>
         /// Gets or sets the نسبت 
         /// </summary>
-        public virtual BaseInformation Relation {get; set; }
+        public virtual BaseInformation Relation {get; set; } 
+
+        /// <summary>
+        /// Gets or sets the تحصیلات فرد 
+        /// </summary>
+        public virtual ICollection<PersonEducation> PersonEducation { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the  وضعیت تأهل فرد 
+        /// </summary>
+        public virtual ICollection<PersonMarriage> PersonMarriage { get; set; }
+
+        /// <summary>
+        /// Gets or sets the  محل سکونت فرد 
+        /// </summary>
+        public virtual ICollection<PersonLocation> PersonLocation { get; set; }
 
         #endregion
 

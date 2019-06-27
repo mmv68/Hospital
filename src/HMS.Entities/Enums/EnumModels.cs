@@ -56,8 +56,8 @@ namespace HMS.Entities.Enums
     /// </summary>
     public enum Certificate : byte
     {
-        [Display(Name = "ابتدایی")]
-        A = 18,
+        [Display(Name = "بی سواد")]
+        A = 1,
         [Display(Name = "سیکل")]
         B,
         [Display(Name = "دیپلم")]
@@ -151,18 +151,14 @@ namespace HMS.Entities.Enums
         I
     }
     /// <summary>
-    /// وضعیت ایثارگری
+    /// نوع ازدواج و طلاق
     /// </summary>
-    public enum Devotion : byte
+    public enum MarriageDivorce : byte
     {
-        [Display(Name = "شهید")]
-        A = 1,
-        [Display(Name = "جانباز")]
-        B,
-        [Display(Name = "آزاده")]
-        C,
-        [Display(Name = "مفقودالاثر")]
-        D
+        [Display(Name = "ازدواج")]
+        Marriage = 1,
+        [Display(Name = "طلاق")]
+        Divorce
     }
     /// <summary>
     /// نسبت خانوادگی

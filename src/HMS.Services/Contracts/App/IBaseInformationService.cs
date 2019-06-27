@@ -7,6 +7,7 @@
 
     using HMS.Entities.App;
     using HMS.ViewModels.App;
+    using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     /// واسط سرویس اطلاعات پایه سامانه <see cref="IBaseInformationService" />
@@ -19,6 +20,11 @@
         /// <param name="baseInformation"> موجودیت اطلاعات پایه <see cref="BaseInformation"/></param>
         void AddNewBaseInformation(BaseInformation baseInformation);
 
+        /// <summary>
+        /// بازیابی اطلاعات پایه سامانه
+        /// </summary>
+        /// <returns> لیست اطلاعات پایه سامنه <see cref="IReadOnlyList{BaseInformation}"/></returns>
+        JsonResult GetBaseInformations(int? id);
         /// <summary>
         /// بازیابی اطلاعات پایه سامانه
         /// </summary>

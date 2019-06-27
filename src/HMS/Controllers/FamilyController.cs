@@ -7,22 +7,36 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HMS.DataLayer.Context;
 using HMS.Entities.App;
+using HMS.Services.Contracts.App;
+using System.ComponentModel;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 
 namespace HMS.Controllers
 {
     public class FamilyController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IPersonService _personService;
+        private readonly IUnitOfWork _uow;
 
-        public FamilyController(ApplicationDbContext context)
+        public FamilyController(ApplicationDbContext context, IPersonService personService, IUnitOfWork uow)
         {
             _context = context;
+            _personService = personService?? throw new ArgumentException(nameof(personService));
+            _uow = uow?? throw new ArgumentException(nameof(uow));
         }
 
         // GET: Family
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
+        }
+
+        [DisplayName(" بازیابی اطلاعات خانواده ")]
+        public JsonResult GetPersons(DataSourceRequest request)
+        {
+            return Json(_personService.GetAllPersons().Result.ToDataSourceResult(request));
         }
 
         // GET: Family/Details/5

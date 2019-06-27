@@ -1,0 +1,18 @@
+﻿@model IEnumerable<HMS.Entities.App.BaseInformation>
+
+@{
+    ViewData["Title"] = "اطلاعات پایه سیستم";
+}
+
+<div class="k-rtl demo-section k-content">
+    @(Html.Kendo().TreeView()
+          .Name("treeview")
+          .DataTextField("Name")
+          .DataSource(dataSource => dataSource
+              .Read(read => read
+                  .Action("GetTreeBaseInformation", "BaseInformation")
+              )
+          )
+          )
+</div>
+

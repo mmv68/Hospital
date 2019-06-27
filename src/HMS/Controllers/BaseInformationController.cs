@@ -20,6 +20,15 @@ namespace HMS.Controllers
         {
             return Json(parentid != null ? _baseInformationService.SelectListBaseInformations(id, (int)parentid) : _baseInformationService.SelectListBaseInformations(id));
         }
+        [DisplayName("اطلاعات پایه سیستم")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+        public JsonResult GetTreeBaseInformation(int? id)
+        {
+            return Json(_baseInformationService.GetBaseInformations(id).Value);
+        }
 
     }
 }

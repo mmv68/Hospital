@@ -8,6 +8,7 @@ using HMS.DataLayer.Context;
 using HMS.Entities.App;
 using HMS.Services.Contracts.App;
 using HMS.ViewModels.App;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HMS.Services.App
 {
@@ -33,6 +34,24 @@ namespace HMS.Services.App
             return _baseInformation.AsNoTracking().ToList();
         }
 
+        public JsonResult GetBaseInformations(int? id)
+        {
+            var bf = from e in _baseInformation
+                where (id.HasValue ? e.ParentId == id : e.ParentId == null)
+                select new
+                {
+                    id = e.Id,
+                    Name = $"{e.Value}-{e.Title}",
+                    hasChildren = (from q in _baseInformation
+                            where (q.ParentId == e.Id)
+                            select q
+                        ).Any()
+                };
+
+
+            return new JsonResult(bf.ToList());
+        }
+
         public async Task<SelectList> SelectItemBaseInformations(int baseInformationHeaderId)
         {
             return new SelectList(await _baseInformation.AsNoTracking()
@@ -50,11 +69,12 @@ namespace HMS.Services.App
 
         public IReadOnlyList<SelectedListBaseInformation> SelectListBaseInformations(int baseInformationHeaderId)
         {
-            return (from baseInformatio in _baseInformation.AsNoTracking()
+            return (from baseInformation in _baseInformation.AsNoTracking()
+                    where baseInformation.ParentId==baseInformationHeaderId
                     select new SelectedListBaseInformation()
                     {
-                        Id = baseInformatio.Id,
-                        Title = baseInformatio.Title
+                        Id = baseInformation.Id,
+                        Title = baseInformation.Title
                     }).ToList();
         }
 

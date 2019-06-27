@@ -84,7 +84,7 @@ namespace HMS.Services.App
 
         public JsonResult GetPersonsAsNoTracking(string searchTerm, int pageSize, int pageNum)
         {
-            var personList = (from person in _persons
+            var personList = (from person in _persons.AsNoTracking()
                               where (person.FirstName.Replace(" ", string.Empty)
                               + person.LastName.Replace(" ", string.Empty)
                               + person.NationalCode.Trim()).Contains(searchTerm.Replace(" ", string.Empty))

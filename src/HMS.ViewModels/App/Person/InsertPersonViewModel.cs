@@ -14,6 +14,10 @@ namespace HMS.ViewModels.App
         [Display(Name = "شناسه")]
         public int Id { get; set; }
 
+        [ScaffoldColumn(false)]
+        [Display(Name = "شناسه سرپرست")]
+        public int? ParentId { get; set; }
+
         [Display(Name = "نام")]
         [Required(ErrorMessage = "لطفا نام  را وارد نمایید")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "نام  باید بین سه تا ۵۰ کاراکتر باشد")]
@@ -82,6 +86,18 @@ namespace HMS.ViewModels.App
 
         [Display(Name = "استان محل تولد")]
         public string BrithPlaceProvianceName { get; set; }
+        
+        [Display(Name = "شهرستان محل تولد")]
+        public int? BrithPlaceTownshipId { get; set; } = null;
+
+        [Display(Name = "شهرستان محل تولد")]
+        public string BrithPlaceTownshipName { get; set; }
+        
+        [Display(Name = "بخش محل تولد")]
+        public int? BrithPlaceSectionId { get; set; } = null;
+
+        [Display(Name = "بخش محل تولد")]
+        public string BrithPlaceSectionName { get; set; }
 
         [Display(Name = "شهرمحل تولد")]
         public int? BrithPlaceCityId { get; set; } = null;
@@ -89,7 +105,8 @@ namespace HMS.ViewModels.App
         [Display(Name = "شهرمحل تولد")]
         public string BrithPlaceCityName { get; set; }
 
-        public short Relation { get; set; } = 1;
+        [Display(Name = "نسبت")]
+        public short? RelationId { get; set; }
         [ScaffoldColumn(false)]
         public byte[] Timestamp { get; set; }
     }

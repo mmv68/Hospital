@@ -8,7 +8,7 @@
           .Name("PersonDataSource")
           .Ajax(dataSource => dataSource
               //.Create(create => create.Action("SetPerson", "Person"))
-              .Read(read => read.Action("GetPersons", "Person"))
+              .Read(read => read.Action("GetPersons", "Family"))
               //.Update(update => update.Action("UpdatePerson", "Person"))
               //.Destroy(destroy => destroy.Action("RemovePerson", "Person"))
               .ServerOperation(false)

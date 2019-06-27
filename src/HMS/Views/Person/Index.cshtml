@@ -27,7 +27,7 @@
                                                                              "<i class='fas fa-th'></i> <span class='caret'></span></button><ul class='dropdown-menu'>" +
                                                                              "<li onclick='EditPerson(#= Id #)'><i class='fas fa-pencil-alt'></i> <span class='Menuli'>ویرایش</span></li>" +
                                                                              "<li onclick='DeletePerson(#= Id #)'><i class='fa red fa-window-close'></i> <span class='Menuli'>حذف</span></li>" +
-                                                                             "<li onclick='Family(#= Id #)'><i class='fas fa-tasks'></i><span class='Menuli'>نمایش</span></li>" +
+                                                                             "<li onclick='InsertPersonEducation(#= Id #,\"#= FirstName # #= LastName #\")'><i class='fas fa-tasks'></i><span class='Menuli'>نمایش</span></li>" +
                                                                              "</ul>").Filterable(x => x.Enabled(false)).Width(100);
 
   })
@@ -147,6 +147,16 @@
             }
         });
     }
+
+    function InsertPersonEducation(id, title) {
+        $.fancybox.open({
+            src: '@Url.Action("Index","PersonEducation")?id=' + id + '&title=' + title,
+            type: 'iframe',
+            fullScreen: {
+                autoStart: false
+            }
+        });
+    }
 </script>
 
 <style>
@@ -167,5 +177,7 @@
     }
     li:hover {
         background-color: #ebebeb;
+        cursor: pointer;
     }
+
 </style>

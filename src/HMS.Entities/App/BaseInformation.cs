@@ -15,10 +15,15 @@
         /// </summary>
         public BaseInformation()
         {
-            this.Children = new HashSet<BaseInformation>();
-            this.PersonBrithPlaceProviance = new HashSet<Person>();
-            this.PersonBrithPlaceCity = new HashSet<Person>();
-            this.PersonRelation = new HashSet<Person>();
+            Children = new HashSet<BaseInformation>();
+            PersonBrithPlaceProviance = new HashSet<Person>();
+            PersonBrithPlaceTownship = new HashSet<Person>();
+            PersonBrithPlaceSection = new HashSet<Person>();
+            PersonBrithPlaceCity = new HashSet<Person>();
+            PersonRelation = new HashSet<Person>();
+            PersonEducationCertificateType=new HashSet<PersonEducation>();
+            PersonEducationDepartment=new HashSet<PersonEducation>();
+            PersonEducationFieldStudy=new HashSet<PersonEducation>();
         }
 
         /// <summary>
@@ -66,6 +71,18 @@
         /// </summary>
         [InverseProperty("BrithPlaceProviance")]
         public virtual ICollection<Person> PersonBrithPlaceProviance { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the PersonBrithPlaceProviance
+        /// </summary>
+        [InverseProperty("BrithPlaceTownship")]
+        public virtual ICollection<Person> PersonBrithPlaceTownship { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the PersonBrithPlaceProviance
+        /// </summary>
+        [InverseProperty("BrithPlaceSection")]
+        public virtual ICollection<Person> PersonBrithPlaceSection { get; set; }
 
         /// <summary>
         /// Gets or sets the PersonBrithPlaceCity
@@ -78,5 +95,23 @@
         /// </summary>
         [InverseProperty("Relation")]
         public virtual ICollection<Person> PersonRelation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the PersonRelation
+        /// </summary>
+        [InverseProperty("CertificateType")]
+        public virtual ICollection<PersonEducation> PersonEducationCertificateType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the PersonRelation
+        /// </summary>
+        [InverseProperty("Department")]
+        public virtual ICollection<PersonEducation> PersonEducationDepartment { get; set; }
+
+        /// <summary>
+        /// Gets or sets the PersonRelation
+        /// </summary>
+        [InverseProperty("FieldStudy")]
+        public virtual ICollection<PersonEducation> PersonEducationFieldStudy { get; set; }
     }
 }

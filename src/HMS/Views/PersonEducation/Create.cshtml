@@ -1,22 +1,21 @@
-﻿@model HMS.ViewModels.App.InsertPersonViewModel
-@{
+﻿@{
     ViewData["Title"] = "ایجاد";
     Layout = "_EditLayout";
 }
 <script type="text/javascript">
     function OnSuccess(response) {
-        if (response == "success") {
-            swal({
+        if (response === "success") {
+            window.swal({
                 position: 'center',
                 type: 'success',
                 title: 'اطلاعات با موفقیت ذخیره شد',
                 showConfirmButton: false,
                 target: document.getElementById('rtl-container'),
                 timer: 2500
-            })
+            });
             setTimeout("parent.jQuery.fancybox.close()", 2000);
         } else {
-            swal({
+            window.swal({
                 position: 'center',
                 type: 'error',
                 title: 'لطفاً خطاهای اتفاق افتاده را بررسی نمایید',
@@ -24,12 +23,10 @@
                 target: document.getElementById('rtl-container'),
                 timer: 2500
             });
-            $('#FormContent').html(response);
+            window.$('#FormContent').html(response);
         }
     }
 </script>
-<h4>ایجاد سرمایه انسانی</h4>
-<hr />
 <div id="FormContent">
-    <partial name="_CreateFamily" />
+    <partial name="_Create" />
 </div>

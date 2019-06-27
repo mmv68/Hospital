@@ -157,6 +157,9 @@ namespace HMS.DataLayer.Context
         public virtual DbSet<Person> Persons { get; set; }
         public virtual DbSet<Structure> Structures { get; set; }
         public virtual DbSet<BaseInformation> BaseInformations { get; set; }
+        public virtual DbSet<PersonEducation> PersonEducations { get; set; }
+        public virtual DbSet<PersonMarriage> PersonMarriages { get; set; }
+        public virtual DbSet<PersonLocation> PersonLocations { get; set; }
         #endregion
 
 
@@ -200,6 +203,7 @@ namespace HMS.DataLayer.Context
             builder.Entity<Person>().HasIndex(idx => new { idx.FirstName, idx.LastName, idx.NationalCode }).HasName("IX_Perosn");
             builder.Entity<Structure>().HasIndex(idx => idx.Title).HasName("IX_Structure");
             builder.Entity<BaseInformation>().HasIndex(idx => idx.Title).HasName("IX_BaseInformation");
+            builder.Entity<PersonEducation>().HasIndex(idx => idx.UniversityName).HasName("IX_PersonEducation");
             // This should be placed here, at the end.
             builder.AddAuditableShadowProperties();
         }

@@ -9,10 +9,10 @@ namespace HMS.Controllers
     [BreadCrumb(Title = "خانه", UseDefaultRouteUrl = true, Order = 0)]
     public class HomeController : Controller
     {
-        [BreadCrumb(Title = "سیمای گزینش", Order = 1)]
+        [BreadCrumb(Title = "سیمای بهداری", Order = 1)]
         public IActionResult Index()
         {
-            TempData["alertMessage"] = "به سامانه کمیل خوش آمدید";
+            TempData["alertMessage"] = "به سامانه مدیریت یکپارچه بهداری خوش آمدید";
             return View();
         }
 

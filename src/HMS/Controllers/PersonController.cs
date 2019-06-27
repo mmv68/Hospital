@@ -67,13 +67,6 @@ namespace HMS.Controllers
             return View();
         }
 
-        [DisplayName("فرم ایجاد اطلاعات سرمایه انسانی")]
-        [BreadCrumb(Order = 1)]
-        public IActionResult CreateFamily()
-        {
-            return View();
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         [DisplayName("ایجاد اطلاعات سرمایه انسانی")]
