@@ -13,7 +13,7 @@ namespace HMS.ViewModels.App
         [Display(Name = "شناسه")]
         public int Id { get; set; }
         [ScaffoldColumn(false)]
-        [Display(Name = "شناسه سرپرست")]
+        [Display(Name = "شناسه فرد")]
         public int? PersonId { get; set; }
         [Display(Name = "نوع مدرک")]
         [Required(ErrorMessage = "لطفا نوع مدرک را انتخاب نمایید")]

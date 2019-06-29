@@ -13,8 +13,7 @@
     <link href="~/css/Kendo.min.css" rel="stylesheet" asp-append-version="true" />
     <script src="~/js/site.min.js" type="text/javascript" asp-append-version="true"></script>
     <script src="~/js/Kendo.min.js" type="text/javascript" asp-append-version="true"></script>
-    <script type="text/javascript">// to use kendo.culture.fa-IR.js
-        kendo.culture("fa-IR");</script>
+    <script type="text/javascript">kendo.culture("fa-IR");</script>
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -30,8 +29,7 @@
                 <img class="Logo-Sep" src="/images/arm-1b.png" alt="ندسا">
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
+                <ul class="nav navbar-nav"></ul>
                 @if (User.Identity.IsAuthenticated)
                 {
                     <partial name="_UserMenu" />
@@ -46,7 +44,7 @@
                     <ul class="nav navbar-nav">
                         <li>
                             <a asp-area="@AreaConstants.IdentityArea" asp-controller="Login" asp-action="Index">
-                                <span class="fas fa-sign-in" aria-hidden="true"></span>
+                                <span class="fas fa-sign-in-alt" aria-hidden="true"></span>
                                 ورود
                             </a>
                         </li>
@@ -56,25 +54,12 @@
         </div>
     </div>
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <breadcrumb asp-homepage-title="خانه"
-                            asp-homepage-url="@Url.Action("Index", "Home", values: new { area = "" })"
-                            asp-homepage-glyphicon="fas fa-home"></breadcrumb>
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        <div class="row">
-            <div class="col-md-12 col-md-push-0">
-                @RenderBody()
-            </div>
-        </div>
+        @RenderBody()
     </div>
     <footer id="footer" dir="ltr" class="navbar navbar-default navbar-fixed-bottom">
         <div class="container">
-            <div class="text-center footer-text">
-                <span class="copyright-text"><span class="fa fa-anchor" style="color:#46b8da" aria-hidden="true"></span> <a href="@Url.Action("Index", "Home", values: new { area = "" })" target="_blank" title="سلامتی و تعجیل در فرج حضرت حجت روحی له  الفداه صلوات">فرماندهی بهداری ندسا</a><span class="fa fa-anchor" style="color:#46b8da" aria-hidden="true"></span></span>
+            <div class="text-center ">
+                <span ><span class="fa fa-anchor" style="color:#46b8da" aria-hidden="true"></span> <a href="@Url.Action("Index", "Home", values: new { area = "" })" target="_blank" title="سلامتی و تعجیل در فرج حضرت حجت روحی له  الفداه صلوات">فرماندهی بهداری ندسا</a><span class="fa fa-anchor" style="color:#46b8da" aria-hidden="true"></span></span>
             </div>
         </div>
     </footer>

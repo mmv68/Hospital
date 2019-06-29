@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Threading.Tasks;
-using DNTBreadCrumb.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +7,6 @@ using HMS.DataLayer.Context;
 using HMS.Services.Contracts.App;
 using HMS.Services.Identity;
 using HMS.ViewModels.App;
-using HMS.Common.IdentityToolkit;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using System;
@@ -16,7 +14,6 @@ using System;
 namespace HMS.Controllers
 {
     [Authorize(Policy = ConstantPolicies.DynamicPermission)]
-    [BreadCrumb(UseDefaultRouteUrl = true, Order = 0)]
     [DisplayName("مدیریت و نگهداری سرمایه انسانی")]
     public class PersonController : Controller
     {
@@ -31,7 +28,6 @@ namespace HMS.Controllers
 
 
         [DisplayName("اطلاعات سرمایه انسانی")]
-        //[BreadCrumb(Order = 1)]
         public IActionResult Index()
         {
             return View();
@@ -61,7 +57,6 @@ namespace HMS.Controllers
         //    return View(person);
         //}
         [DisplayName("فرم ایجاد اطلاعات سرمایه انسانی")]
-        [BreadCrumb(Order = 1)]
         public IActionResult Create()
         {
             return View();
@@ -70,19 +65,14 @@ namespace HMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [DisplayName("ایجاد اطلاعات سرمایه انسانی")]
-        [BreadCrumb(Order = 1)]
         public async Task<IActionResult> Create(InsertPersonViewModel person)
         {
-            if (ModelState.IsValid)
-            {
-                await _personService.AddNewPerson(person).ConfigureAwait(false);
-                await _uow.SaveChangesAsync().ConfigureAwait(false);
-                return Content("success");
-            }
-            return PartialView("_Create",person);
+            if (!ModelState.IsValid) return PartialView("_Create", person);
+            await _personService.AddNewPerson(person).ConfigureAwait(false);
+            await _uow.SaveChangesAsync().ConfigureAwait(false);
+            return Content("success");
         }
         [DisplayName("فرم ویرایش اطلاعات سرمایه انسانی")]
-        [BreadCrumb(Order = 1)]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -100,7 +90,7 @@ namespace HMS.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [DisplayName("ویرایش اطلاعات سرمایه انسانی")]
-        [BreadCrumb(Order = 1)]
+        //[BreadCrumb(Order = 1)]
         public async Task<IActionResult> Edit(int id, EditPersonViewModel person)
         {
             if (id != person.Id)
@@ -131,7 +121,6 @@ namespace HMS.Controllers
             return View(person);
         }
         [DisplayName("فرم حذف اطلاعات سرمایه انسانی")]
-        [BreadCrumb(Order = 1)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -151,7 +140,6 @@ namespace HMS.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         [DisplayName("حذف اطلاعات سرمایه انسانی")]
-        [BreadCrumb(Order = 1)]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             _personService.DeletePerson(id);

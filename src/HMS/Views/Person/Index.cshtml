@@ -5,10 +5,7 @@
 @(Html.Kendo().DataSource<InsertPersonViewModel>()
   .Name("PersonDataSource")
   .Ajax(dataSource => dataSource
-      //.Create(create => create.Action("SetPerson", "Person"))
       .Read(read => read.Action("GetPersons", "Person"))
-      //.Update(update => update.Action("UpdatePerson", "Person"))
-      //.Destroy(destroy => destroy.Action("RemovePerson", "Person"))
       .ServerOperation(false)
       .PageSize(50)
   )
@@ -27,7 +24,7 @@
                                                                              "<i class='fas fa-th'></i> <span class='caret'></span></button><ul class='dropdown-menu'>" +
                                                                              "<li onclick='EditPerson(#= Id #)'><i class='fas fa-pencil-alt'></i> <span class='Menuli'>ویرایش</span></li>" +
                                                                              "<li onclick='DeletePerson(#= Id #)'><i class='fa red fa-window-close'></i> <span class='Menuli'>حذف</span></li>" +
-                                                                             "<li onclick='InsertPersonEducation(#= Id #,\"#= FirstName # #= LastName #\")'><i class='fas fa-tasks'></i><span class='Menuli'>نمایش</span></li>" +
+                                                                             "<li onclick='InsertPersonEducation(#= Id #,\"#= FirstName # #= LastName #\")'><i class='fas fa-graduation-cap'></i><span class='Menuli'>تحصیلات</span></li>" +
                                                                              "</ul>").Filterable(x => x.Enabled(false)).Width(100);
 
   })
@@ -81,9 +78,9 @@
         function error_handler(e) {
             if (e.errors) {
                 var message = "Errors:\n";
-                $.each(e.errors, function (key, value) {
+                window.$.each(e.errors, function (key, value) {
                     if ('errors' in value) {
-                        $.each(value.errors, function () {
+                        window.$.each(value.errors, function () {
                             message += this + "\n";
                         });
                     }
@@ -92,64 +89,56 @@
             }
         }
         $(function () {
-            var grid = $("#PersonGrid").data("kendoGrid");
+            var grid = window.$("#PersonGrid").data("kendoGrid");
 
-            $(".k-grid-SaveGridSetting").click(function (e) {
+            window.$(".k-grid-SaveGridSetting").click(function (e) {
                 e.preventDefault();
-                localStorage["PersonGrid-options"] = kendo.stringify(grid.getOptions());
+                localStorage["PersonGrid-options"] = window.kendo.stringify(grid.getOptions());
             });
 
-            $(".k-grid-InsertPerson").click(function (e) {
+            window.$(".k-grid-InsertPerson").click(function (e) {
                 e.preventDefault();
-                $.fancybox.open({
+                window.$.fancybox.open({
                     src: '@Url.Action("Create")',
                     type: 'iframe',
                     opts: {
-                        afterClose: function (instance, current, e) {
-                            $('#PersonGrid').data('kendoGrid').dataSource.read();
+                        afterClose: function () {
+                            window.$('#PersonGrid').data('kendoGrid').dataSource.read();
                         }
                     }
                 });
             });
-
-            function loadGridSetting (e) {
-                e.preventDefault();
-                var options = localStorage["PersonGrid-options"];
-                if (options) {
-                    grid.setOptions(Json.parse(options));
-                }
-            }
         });
     </script>
     
 </div>
 <script type="text/javascript">
     function EditPerson(id) {
-        $.fancybox.open({
+        window.$.fancybox.open({
             src: '@Url.Action("Edit")/'+id,
             type: 'iframe',
             opts: {
-                afterClose: function (instance, current, e) {
-                    $('#PersonGrid').data('kendoGrid').dataSource.read();
+                afterClose: function () {
+                    window.$('#PersonGrid').data('kendoGrid').dataSource.read();
                 }
             }
         });
     }
 
     function DeletePerson(id) {
-        $.fancybox.open({
+        window.$.fancybox.open({
             src: '@Url.Action("Delete")/'+id,
             type: 'iframe',
             opts: {
-                afterClose: function (instance, current, e) {
-                    $('#PersonGrid').data('kendoGrid').dataSource.read();
+                afterClose: function () {
+                    window.$('#PersonGrid').data('kendoGrid').dataSource.read();
                 }
             }
         });
     }
 
     function InsertPersonEducation(id, title) {
-        $.fancybox.open({
+        window.$.fancybox.open({
             src: '@Url.Action("Index","PersonEducation")?id=' + id + '&title=' + title,
             type: 'iframe',
             fullScreen: {

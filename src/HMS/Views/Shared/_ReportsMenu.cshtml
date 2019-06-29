@@ -5,6 +5,14 @@
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu" role="menu">
+            <security-trimming asp-area="" asp-controller="BaseInformation" asp-action="Index">
+                <li>
+                    <a asp-controller="BaseInformation" asp-action="Index" asp-area="">
+                        <span class="fas fa-sitemap" aria-hidden="true"></span>
+                        تعاریف اولیه
+                    </a>
+                </li>
+            </security-trimming>
             <security-trimming asp-area="" asp-controller="Person" asp-action="Index">
                 <li>
                     <a asp-controller="Person" asp-action="Index" asp-area="">
