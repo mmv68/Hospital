@@ -27,16 +27,17 @@
     .Name("PersonEducationGrid")
     .Columns(columns =>
     {
-        columns.Bound(e => e.CertificateTypeName).Width(180).Filterable(x => x.Extra(false));
-        columns.Bound(e => e.DepartmentName).Width(150).Filterable(x => x.Extra(false));
-        columns.Bound(e => e.FieldStudyName).Width(180).Filterable(x => x.Extra(false));
-        columns.Bound(e => e.GraduatedDate).Width(180).Filterable(x => x.Extra(false));
-        columns.Bound(e => e.Average).Width(130).Filterable(x => x.Extra(false));
+        columns.Bound(e => e.CertificateTypeName).Filterable(x => x.Extra(false));
+        columns.Bound(e => e.DepartmentName).Filterable(x => x.Extra(false));
+        columns.Bound(e => e.FieldStudyName).Filterable(x => x.Extra(false));
+        columns.Bound(e => e.UniversityType).Filterable(x => x.Extra(false));
+        columns.Bound(e => e.UniversityName).Filterable(x => x.Extra(false));
+        columns.Bound(e => e.Average).Filterable(x => x.Extra(false));
         columns.Command(command =>
                             {
-                            command.Custom("Edit").Click("EditPersonEducation").Text("ویرایش").IconClass("fa blue fa-edit");
-                            command.Custom("Delete").Click("DeletePersonEducation").Text("حذف").IconClass("fa red fa-window-close");
-                            });
+                            command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit");
+                            command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close");
+                            }).Width(250);
     })
     .ToolBar(toolbar =>
         {

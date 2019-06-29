@@ -31,6 +31,8 @@ namespace HMS.Services.App
         public async Task AddNewPersonEducation(PersonEducationViewModel personEducation)
         {
             await _personEducations.AddAsync(_mapper.Map<PersonEducation>(personEducation)).ConfigureAwait(false);
+            await _uow.SaveChangesAsync().ConfigureAwait(false);
+
         }
 
         public void UpdatePerson(PersonEducationViewModel personEducation)
@@ -60,7 +62,13 @@ namespace HMS.Services.App
 
         public async Task<DataSourceResult> GetPersonEducations(DataSourceRequest request,int personId)
         {
-            return await _personEducations.Where(x => x.PersonId == personId).ToList().ToDataSourceResultAsync(request).ConfigureAwait(false);
+            return _mapper.Map<List<PersonEducationViewModel>>
+            (await _personEducations.Where(p => p.PersonId == personId)
+                .Include(p=>p.CertificateType)
+                .Include(p=>p.Department)
+                .Include(p=>p.FieldStudy)
+                .ToListAsync().ConfigureAwait(false)
+            ).ToDataSourceResult(request);
         }
     }
 }

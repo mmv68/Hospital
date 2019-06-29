@@ -1,89 +1,163 @@
-﻿@model IEnumerable<HMS.Entities.App.PersonLocation>
-
+﻿@model PersonLocationViewModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "محل سکونت";
+    Layout = "_EditLayout";
 }
+<div class="Person">
+    <span>اطلاعات محل سکونت</span>
+    <span>@Context.Request.Query["title"]</span>
+    <input type="hidden" id="PersonId" value="@Context.Request.Query["id"]" />
+    <script type="text/javascript">
+        function getPersonId() {
+            return {
+                id: window.$("#PersonId").val()
+            }
+        }
+    </script>
+</div>
+<div class="k-rtl">
+    @(Html.Kendo().DataSource<PersonLocationViewModel>()
+                .Name("PersonLocationDataSource")
+                .Ajax(dataSource => dataSource.Read(read => read.Action("GetPersonLocation", "PersonLocation").Data("getPersonId"))
+                    .ServerOperation(false)
+                .PageSize(50)
+                )
+    )
+    @(Html.Kendo().Grid<PersonLocationViewModel>()
+            .Name("PersonLocationGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(e => e.ProvianceName).Width(180).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.TownshipName).Width(150).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.SectionName).Width(180).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.CityName).Width(180).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.Mobile).Width(130).Filterable(x => x.Extra(false));
+                columns.Command(command =>
+                                    {
+                                        command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit");
+                                        command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close");
+                                    });
+            })
+            .ToolBar(toolbar =>
+                {
+                    toolbar.Custom().Text("ایجاد").Name("InsertPersonLocation");
+                })
+            .Selectable(selectable =>
+            {
+                selectable.Mode(GridSelectionMode.Multiple);
+                selectable.Type(GridSelectionType.Row);
+            })
+            .PersistSelection(true)
+            .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .Input(true)
+                        .ButtonCount(5)
+                        .PageSizes(new[] { 10, 20, 30, 40, 50, 100 }))
+            .Navigatable()
+            .AllowCopy(true)
+            .Sortable(sortable => sortable.SortMode(GridSortMode.SingleColumn))
+            .Filterable(x => x
+            .Messages(c => c
+            .Search("جستجو")
+            .SelectValue("انتخاب شده ها")
+            .Info("مشخصات")
+            .SelectedItemsFormat("تعداد انتخاب ها:{0}")))
+            .Scrollable()
+            .DataSource("PersonLocationDataSource")
+    )
+    <script>
+        $(function () {
+            var grid = window.$("#PersonLocationGrid").data("kendoGrid");
+            window.$(".k-grid-SaveGridSetting").click(function (e) {
+                e.preventDefault();
+                localStorage["PersonLocationGrid-options"] = window.kendo.stringify(grid.getOptions());
+            });
 
-<h1>Index</h1>
+            window.$(".k-grid-InsertPersonLocation").click(function (e) {
+                e.preventDefault();
+                window.$.fancybox.open({
+                    src: '@Url.Action("Create")?personId=' + window.$("#PersonId").val(),
+                    type: 'iframe',
+                    opts: {
+                        afterClose: function () {
+                            window.$('#PersonLocationGrid').data('kendoGrid').dataSource.read();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        window.$(".createEdit").fancybox({
+            afterClose: function () {
+                alert(message);
+            }
+        }); // close fancybox
+    }); // close ready
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Addres)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mobile)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PersonalEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrganizationEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Person)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Proviance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Township)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Section)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.City)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Addres)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mobile)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PersonalEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrganizationEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Person.FatherName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Proviance.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Township.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Section.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.City.Title)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    function EditPersonLocation(e) {
+        e.preventDefault();
+        var id = this.dataItem(window.$(e.currentTarget).closest("tr")).Id;
+        window.$.fancybox.open({
+            src: '@Url.Action("Edit")/'+id,
+            type: 'iframe',
+            opts: {
+                afterClose: function () {
+                    window.$('#PersonLocationGrid').data('kendoGrid').dataSource.read();
+                }
+            }
+        });
+    }
+
+    function DeletePersonLocation(e) {
+        e.preventDefault();
+        var id = this.dataItem(window.$(e.currentTarget).closest("tr")).Id;
+        window.$.fancybox.open({
+            src: '@Url.Action("Delete")/'+id,
+            type: 'iframe',
+            opts: {
+                afterClose: function () {
+                    window.$('#PersonLocationGrid').data('kendoGrid').dataSource.read();
+                }
+            }
+        });
+    }
+
+    function InsertPersonLocationPersonLocation(e) {
+        e.preventDefault();
+        var id = @Context.Request.Query["id"];
+        window.$.fancybox.open({
+            src: '@Url.Action("Create","PersonLocation")/'+id,
+            type: 'iframe',
+            opts: {
+                afterClose: function () {
+                    //$('#PersonLocationGrid').data('kendoGrid').dataSource.read();
+                }
+            }
+        });
+    }
+
+</script>
+<style>
+    .fa {
+        margin-left: 4px;
+    }
+
+    .k-window-title {
+        float: right;
+        margin-right: 18px;
+    }
+
+    .Person {
+        width: 100%;
+        height: 64px;
+        border-radius: 25px 0 25px 0;
+        text-align: center;
+        font-size: 42px;
+        margin-bottom: 9px;
+        background-color: #4bc3b7;
+        color: #3F51B5;
+    }
+</style>

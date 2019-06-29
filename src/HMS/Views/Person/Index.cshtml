@@ -25,6 +25,10 @@
                                                                              "<li onclick='EditPerson(#= Id #)'><i class='fas fa-pencil-alt'></i> <span class='Menuli'>ویرایش</span></li>" +
                                                                              "<li onclick='DeletePerson(#= Id #)'><i class='fa red fa-window-close'></i> <span class='Menuli'>حذف</span></li>" +
                                                                              "<li onclick='InsertPersonEducation(#= Id #,\"#= FirstName # #= LastName #\")'><i class='fas fa-graduation-cap'></i><span class='Menuli'>تحصیلات</span></li>" +
+                                                                             "<li onclick='InsertPersonLocation(#= Id #,\"#= FirstName # #= LastName #\")'><i class='fas fa-home'></i><span class='Menuli'>محل سکونت</span></li>" +
+                                                                             "<li onclick='InsertPersonMarriage(#= Id #,\"#= FirstName # #= LastName #\")'><i class='fas fa-mars-double'></i><span class='Menuli'>تأهل</span></li>" +
+                                                                             "<li onclick='InsertPersonCompleteInformation(#= Id #,\"#= FirstName # #= LastName #\")'><i class='far fa-newspaper'></i><span class='Menuli'>اطلاعات تکمیلی</span></li>" +
+                                                                             "<li onclick='InsertPersonnel(#= Id #,\"#= FirstName # #= LastName #\")'><i class='far fa-address-card'></i><span class='Menuli'>پرسنلی</span></li>" +
                                                                              "</ul>").Filterable(x => x.Enabled(false)).Width(100);
 
   })
@@ -146,6 +150,47 @@
             }
         });
     }
+
+    function InsertPersonLocation(id, title) {
+        window.$.fancybox.open({
+            src: '@Url.Action("Index", "PersonLocation")?id=' + id + '&title=' + title,
+            type: 'iframe',
+            fullScreen: {
+                autoStart: false
+            }
+        });
+    }
+
+    function InsertPersonMarriage(id, title) {
+        window.$.fancybox.open({
+            src: '@Url.Action("Index", "PersonMarriage")?id=' + id + '&title=' + title,
+            type: 'iframe',
+            fullScreen: {
+                autoStart: false
+            }
+        });
+    }
+
+    function InsertPersonCompleteInformation(id, title) {
+        @*window.$.fancybox.open({
+            src: '@Url.Action("Index", "PersonCompleteInformation")?id=' + id + '&title=' + title,
+            type: 'iframe',
+            fullScreen: {
+                autoStart: false
+            }
+        });*@
+    }
+
+    function InsertPersonnel(id, title) {
+        @*window.$.fancybox.open({
+            src: '@Url.Action("Index", "Personnel")?id=' + id + '&title=' + title,
+                type: 'iframe',
+                fullScreen: {
+                    autoStart: false
+                }
+        });*@
+    }
+
 </script>
 
 <style>

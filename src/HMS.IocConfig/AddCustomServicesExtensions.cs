@@ -72,6 +72,7 @@ namespace HMS.IocConfig
             services.AddScoped<IStructureService, EfStructureService>();
             services.AddScoped<IBaseInformationService, EfBaseInformationService>();
             services.AddScoped<IPersonEducationService, EfPersonEducationService>();
+            services.AddScoped<IPersonLocationService, EfPersonLocationService>();
             #endregion
 
             return services;

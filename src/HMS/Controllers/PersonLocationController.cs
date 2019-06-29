@@ -1,14 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HMS.DataLayer.Context;
 using HMS.Entities.App;
+using HMS.Services.Contracts.App;
 using HMS.Services.Identity;
+using HMS.ViewModels.App;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Authorization;
 
 namespace HMS.Controllers
@@ -18,19 +22,31 @@ namespace HMS.Controllers
     public class PersonLocationController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public PersonLocationController(ApplicationDbContext context)
+        private readonly IPersonLocationService _personLocationService;
+        private readonly IMapper _mapper;
+        public PersonLocationController(ApplicationDbContext context, IPersonLocationService personLocationService, IMapper mapper)
         {
             _context = context;
+            _personLocationService = personLocationService;
+            _mapper = mapper;
         }
 
-        // GET: PersonLocation
-        public async Task<IActionResult> Index()
+        [DisplayName("لیست محل های سکونت")]
+        public IActionResult Index(int id, string title)
         {
-            var applicationDbContext = _context.PersonLocations.Include(p => p.City).Include(p => p.Person).Include(p => p.Proviance).Include(p => p.Section).Include(p => p.Township);
-            return View(await applicationDbContext.ToListAsync());
+            return View();
         }
-
+        public JsonResult GetPersonLocation(DataSourceRequest request, int id)
+        {
+            return Json((_mapper.Map<List<PersonLocationViewModel>>
+            (_context.PersonLocations.Where(x => x.PersonId == id)
+                .Include(p => p.Proviance)
+                .Include(p => p.Township)
+                .Include(p => p.Section)
+                .Include(p => p.City)
+                .ToList())).ToDataSourceResult(request));
+            //return Json(_personEducationService.GetPersonEducations(request, id));
+        }
         // GET: PersonLocation/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -57,33 +73,17 @@ namespace HMS.Controllers
         // GET: PersonLocation/Create
         public IActionResult Create()
         {
-            ViewData["CityId"] = new SelectList(_context.BaseInformations, "Id", "Title");
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "FatherName");
-            ViewData["ProvianceId"] = new SelectList(_context.BaseInformations, "Id", "Title");
-            ViewData["SectionId"] = new SelectList(_context.BaseInformations, "Id", "Title");
-            ViewData["TownshipId"] = new SelectList(_context.BaseInformations, "Id", "Title");
             return View();
         }
 
-        // POST: PersonLocation/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PersonId,ProvianceId,TownshipId,SectionId,CityId,Addres,Phone,Mobile,PersonalEmail,OrganizationEmail")] PersonLocation personLocation)
+        public async Task<IActionResult> Create(PersonLocationViewModel personLocation)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(personLocation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CityId"] = new SelectList(_context.BaseInformations, "Id", "Title", personLocation.CityId);
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "FatherName", personLocation.PersonId);
-            ViewData["ProvianceId"] = new SelectList(_context.BaseInformations, "Id", "Title", personLocation.ProvianceId);
-            ViewData["SectionId"] = new SelectList(_context.BaseInformations, "Id", "Title", personLocation.SectionId);
-            ViewData["TownshipId"] = new SelectList(_context.BaseInformations, "Id", "Title", personLocation.TownshipId);
-            return View(personLocation);
+            if (!ModelState.IsValid) return PartialView("_Create", personLocation);
+            await _personLocationService.AddNewPersonLocation(personLocation).ConfigureAwait(false);
+            return Content("Success");
+
         }
 
         // GET: PersonLocation/Edit/5

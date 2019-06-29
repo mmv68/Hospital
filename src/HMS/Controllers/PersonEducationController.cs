@@ -1,6 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +23,13 @@ namespace HMS.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IPersonEducationService _personEducationService;
-        private readonly IUnitOfWork _uow;
-        public PersonEducationController(ApplicationDbContext context, IPersonEducationService personEducationService, IUnitOfWork uow)
+        private readonly IMapper _mapper;
+      
+        public PersonEducationController(ApplicationDbContext context, IPersonEducationService personEducationService, IUnitOfWork uow, IMapper mapper)
         {
             _context = context;
             _personEducationService = personEducationService;
-            _uow = uow;
+            _mapper = mapper;
         }
 
         public IActionResult Index(int id,string title)
@@ -36,15 +39,16 @@ namespace HMS.Controllers
 
         public JsonResult GetPersonEducation(DataSourceRequest request,int id)
         {
-            return Json(_context.PersonEducations.Where(x => x.PersonId == id)
-                .Include(p=>p.CertificateType)
-                .Include(p=>p.Department)
-                .Include(p=>p.FieldStudy)
-                .ToList().ToDataSourceResult(request));
+            return Json((_mapper.Map<List<PersonEducationViewModel>>
+            (_context.PersonEducations.Where(x => x.PersonId == id)
+                .Include(p => p.CertificateType)
+                .Include(p => p.Department)
+                .Include(p => p.FieldStudy)
+                .ToList())).ToDataSourceResult(request));
             //return Json(_personEducationService.GetPersonEducations(request, id));
         }
 
-         public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -77,7 +81,6 @@ namespace HMS.Controllers
         {
             if (!ModelState.IsValid) return PartialView("_Create", personEducation);
             await _personEducationService.AddNewPersonEducation(personEducation).ConfigureAwait(false);
-            await _uow.SaveChangesAsync().ConfigureAwait(false);
             return Content("Success");
         }
 
@@ -98,7 +101,7 @@ namespace HMS.Controllers
             ViewData["DepartmentId"] = new SelectList(_context.BaseInformations, "Id", "Title", personEducation.DepartmentId);
             ViewData["FieldStudyId"] = new SelectList(_context.BaseInformations, "Id", "Title", personEducation.FieldStudyId);
             ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "FatherName", personEducation.PersonId);
-            return View(personEducation);
+            return View();
         }
 
         // POST: PersonEducation/Edit/5
@@ -137,7 +140,7 @@ namespace HMS.Controllers
             ViewData["DepartmentId"] = new SelectList(_context.BaseInformations, "Id", "Title", personEducation.DepartmentId);
             ViewData["FieldStudyId"] = new SelectList(_context.BaseInformations, "Id", "Title", personEducation.FieldStudyId);
             ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "FatherName", personEducation.PersonId);
-            return View(personEducation);
+            return View();
         }
 
         // GET: PersonEducation/Delete/5

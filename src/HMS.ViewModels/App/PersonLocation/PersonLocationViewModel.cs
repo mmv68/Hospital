@@ -2,7 +2,7 @@
 
 namespace HMS.ViewModels.App
 {
-    public class PersonLocationViewModels
+    public class PersonLocationViewModel
     {
         [ScaffoldColumn(false)]
         [Display(Name = "شناسه")]
