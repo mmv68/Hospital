@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,12 +8,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HMS.DataLayer.Context;
 using HMS.Entities.App;
+using HMS.Services.Identity;
 using HMS.ViewModels.App;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HMS.Controllers
 {
+    [Authorize(Policy = ConstantPolicies.DynamicPermission)]
+    [DisplayName("مدیریت و نگهداری اطلاعات تأهل")]
     public class PersonMarriageController : Controller
     {
         private readonly ApplicationDbContext _context;

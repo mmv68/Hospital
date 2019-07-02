@@ -31,12 +31,10 @@ namespace HMS.ViewModels.App
         public string LastName { get; set; }
 
         [Display(Name = "نام پدر")]
-        [Required(ErrorMessage = "لطفا نام پدر را وارد نمایید")]
         [RegularExpression(@"^[\u0600-\u06FF,\u0590-\u05FF,0-9\s]*$", ErrorMessage = "لطفا فقط ازاعداد و حروف  فارسی برای نام پدر  استفاده کنید")]
-        public String FatherName { get; set; }
+        public string FatherName { get; set; }
 
         [Display(Name = "نام مادر")]
-        [Required(ErrorMessage = "لطفا نام مادر را وارد نمایید")]
         [RegularExpression(@"^[\u0600-\u06FF,\u0590-\u05FF,0-9\s]*$", ErrorMessage = "لطفا فقط ازاعداد و حروف  فارسی برای نام مادر استفاده کنید")]
         public string MotherName { get; set; }
 
@@ -46,15 +44,12 @@ namespace HMS.ViewModels.App
         public string IdentityNumber { get; set; }
 
         [Display(Name = "سری حروفی")]
-        [Required(ErrorMessage = "لطفا سری شناسنامه را وارد نمایید")]
         public string IdentitySeries { get; set; }
 
         [Display(Name = "سری عددی")]
-        [Required(ErrorMessage = "لطفا سری شناسنامه را وارد نمایید")]
         public short? IdentitySeriesNumber { get; set; }
 
         [Display(Name = "سریال شناسنامه")]
-        [Required(ErrorMessage = "لطفا سریال شناسنامه را وارد نمایید")]
         [RegularExpression("[0-9]{6}", ErrorMessage = "لطفا سریال شناسنامه را به شکل صحیح وارد کنید")]
         public string IdentitySerial { get; set; }
 

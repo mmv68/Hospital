@@ -28,7 +28,6 @@ namespace HMS.ViewModels.App
         public string CityName { get; set; }
         [Display(Name = "آدرس")]
         [StringLength(1000, MinimumLength = 15, ErrorMessage = "آدرس را باید به صورت کامل وارد نمایید")]
-        [RegularExpression(@"^[\u0600-\u06FF,\u0590-\u05FF,0-9\s]*$", ErrorMessage = "لطفا فقط ازاعداد و حروف  فارسی برای آدرس استفاده کنید")]
         public string Addres { get; set; }
         [Display(Name = "تلفن ثابت")]
         [RegularExpression("^0[1-9]{2}[1-9]{1}[0-9]{7}$", ErrorMessage = "لطفا شماره تلفن ثابت را به شکل صحیح وارد کنید")]

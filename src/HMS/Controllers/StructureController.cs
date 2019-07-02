@@ -2,18 +2,20 @@
 using Microsoft.AspNetCore.Mvc;
 using HMS.DataLayer.Context;
 using HMS.Services.Contracts.App;
+using HMS.Services.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HMS.Controllers
 {
+    [Authorize(Policy = ConstantPolicies.DynamicPermission)]
+    [DisplayName("مدیریت و نگهداری ساختار")]
     public class StructureController : Controller
     {
         private readonly IStructureService _structureService;
-        private readonly IUnitOfWork _uow;
 
-        public StructureController(IStructureService structureService, IUnitOfWork uow)
+        public StructureController(IStructureService structureService)
         {
             _structureService = structureService;
-            _uow = uow;
         }
 
         [DisplayName("بازیابی لیست ساختار ")]

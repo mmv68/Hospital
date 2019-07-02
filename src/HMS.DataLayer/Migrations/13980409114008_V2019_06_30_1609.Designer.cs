@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMS.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("13980327161512_V2019_06_17_2044")]
-    partial class V2019_06_17_2044
+    [Migration("13980409114008_V2019_06_30_1609")]
+    partial class V2019_06_30_1609
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -85,6 +85,10 @@ namespace HMS.DataLayer.Migrations
                     b.Property<int?>("BrithPlaceCityId");
 
                     b.Property<int?>("BrithPlaceProvianceId");
+
+                    b.Property<int?>("BrithPlaceSectionId");
+
+                    b.Property<int?>("BrithPlaceTownshipId");
 
                     b.Property<string>("CreatedByBrowserName")
                         .HasMaxLength(1000);
@@ -162,6 +166,10 @@ namespace HMS.DataLayer.Migrations
 
                     b.HasIndex("BrithPlaceProvianceId");
 
+                    b.HasIndex("BrithPlaceSectionId");
+
+                    b.HasIndex("BrithPlaceTownshipId");
+
                     b.HasIndex("ParentId");
 
                     b.HasIndex("RelationId");
@@ -170,6 +178,190 @@ namespace HMS.DataLayer.Migrations
                         .HasName("IX_Perosn");
 
                     b.ToTable("Persons");
+                });
+
+            modelBuilder.Entity("HMS.Entities.App.PersonEducation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool?>("Applied");
+
+                    b.Property<decimal?>("Average")
+                        .HasColumnType("decimal(4, 2)");
+
+                    b.Property<int>("CertificateTypeId");
+
+                    b.Property<string>("CreatedByBrowserName")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("CreatedByIp")
+                        .HasMaxLength(255);
+
+                    b.Property<int?>("CreatedByUserId");
+
+                    b.Property<DateTimeOffset?>("CreatedDateTime");
+
+                    b.Property<int?>("DepartmentId");
+
+                    b.Property<int?>("FieldStudyId");
+
+                    b.Property<DateTime?>("GraduatedDate")
+                        .HasColumnType("date");
+
+                    b.Property<bool?>("IsDeleted");
+
+                    b.Property<bool?>("IsImported");
+
+                    b.Property<string>("ModifiedByBrowserName")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("ModifiedByIp")
+                        .HasMaxLength(255);
+
+                    b.Property<int?>("ModifiedByUserId");
+
+                    b.Property<DateTimeOffset?>("ModifiedDateTime");
+
+                    b.Property<int>("PersonId");
+
+                    b.Property<string>("UniversityName")
+                        .HasMaxLength(50);
+
+                    b.Property<byte>("UniversityType");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CertificateTypeId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("FieldStudyId");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("UniversityName")
+                        .HasName("IX_PersonEducation");
+
+                    b.ToTable("PersonEducations");
+                });
+
+            modelBuilder.Entity("HMS.Entities.App.PersonLocation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Addres");
+
+                    b.Property<int?>("CityId");
+
+                    b.Property<string>("CreatedByBrowserName")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("CreatedByIp")
+                        .HasMaxLength(255);
+
+                    b.Property<int?>("CreatedByUserId");
+
+                    b.Property<DateTimeOffset?>("CreatedDateTime");
+
+                    b.Property<bool?>("IsDeleted");
+
+                    b.Property<bool?>("IsImported");
+
+                    b.Property<string>("Mobile")
+                        .HasColumnType("varchar(11)");
+
+                    b.Property<string>("ModifiedByBrowserName")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("ModifiedByIp")
+                        .HasMaxLength(255);
+
+                    b.Property<int?>("ModifiedByUserId");
+
+                    b.Property<DateTimeOffset?>("ModifiedDateTime");
+
+                    b.Property<string>("OrganizationEmail");
+
+                    b.Property<int>("PersonId");
+
+                    b.Property<string>("PersonalEmail");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("varchar(11)");
+
+                    b.Property<int?>("ProvianceId");
+
+                    b.Property<int?>("SectionId");
+
+                    b.Property<int?>("TownshipId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("ProvianceId");
+
+                    b.HasIndex("SectionId");
+
+                    b.HasIndex("TownshipId");
+
+                    b.ToTable("PersonLocations");
+                });
+
+            modelBuilder.Entity("HMS.Entities.App.PersonMarriage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedByBrowserName")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("CreatedByIp")
+                        .HasMaxLength(255);
+
+                    b.Property<int?>("CreatedByUserId");
+
+                    b.Property<DateTimeOffset?>("CreatedDateTime");
+
+                    b.Property<DateTime?>("IncidentDate")
+                        .HasColumnType("date");
+
+                    b.Property<bool?>("IsDeleted");
+
+                    b.Property<bool?>("IsImported");
+
+                    b.Property<byte>("MarriageDivorce");
+
+                    b.Property<string>("ModifiedByBrowserName")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("ModifiedByIp")
+                        .HasMaxLength(255);
+
+                    b.Property<int?>("ModifiedByUserId");
+
+                    b.Property<DateTimeOffset?>("ModifiedDateTime");
+
+                    b.Property<string>("OfficeNumber")
+                        .HasMaxLength(10);
+
+                    b.Property<int>("PersonId");
+
+                    b.Property<string>("RegisterNumber")
+                        .HasMaxLength(10);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PersonId");
+
+                    b.ToTable("PersonMarriages");
                 });
 
             modelBuilder.Entity("HMS.Entities.App.Structure", b =>
@@ -735,6 +927,14 @@ namespace HMS.DataLayer.Migrations
                         .HasForeignKey("BrithPlaceProvianceId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("HMS.Entities.App.BaseInformation", "BrithPlaceSection")
+                        .WithMany("PersonBrithPlaceSection")
+                        .HasForeignKey("BrithPlaceSectionId");
+
+                    b.HasOne("HMS.Entities.App.BaseInformation", "BrithPlaceTownship")
+                        .WithMany("PersonBrithPlaceTownship")
+                        .HasForeignKey("BrithPlaceTownshipId");
+
                     b.HasOne("HMS.Entities.App.Person", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
@@ -742,6 +942,59 @@ namespace HMS.DataLayer.Migrations
                     b.HasOne("HMS.Entities.App.BaseInformation", "Relation")
                         .WithMany("PersonRelation")
                         .HasForeignKey("RelationId");
+                });
+
+            modelBuilder.Entity("HMS.Entities.App.PersonEducation", b =>
+                {
+                    b.HasOne("HMS.Entities.App.BaseInformation", "CertificateType")
+                        .WithMany("PersonEducationCertificateType")
+                        .HasForeignKey("CertificateTypeId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HMS.Entities.App.BaseInformation", "Department")
+                        .WithMany("PersonEducationDepartment")
+                        .HasForeignKey("DepartmentId");
+
+                    b.HasOne("HMS.Entities.App.BaseInformation", "FieldStudy")
+                        .WithMany("PersonEducationFieldStudy")
+                        .HasForeignKey("FieldStudyId");
+
+                    b.HasOne("HMS.Entities.App.Person", "Person")
+                        .WithMany("PersonEducation")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HMS.Entities.App.PersonLocation", b =>
+                {
+                    b.HasOne("HMS.Entities.App.BaseInformation", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId");
+
+                    b.HasOne("HMS.Entities.App.Person", "Person")
+                        .WithMany("PersonLocation")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HMS.Entities.App.BaseInformation", "Proviance")
+                        .WithMany()
+                        .HasForeignKey("ProvianceId");
+
+                    b.HasOne("HMS.Entities.App.BaseInformation", "Section")
+                        .WithMany()
+                        .HasForeignKey("SectionId");
+
+                    b.HasOne("HMS.Entities.App.BaseInformation", "Township")
+                        .WithMany()
+                        .HasForeignKey("TownshipId");
+                });
+
+            modelBuilder.Entity("HMS.Entities.App.PersonMarriage", b =>
+                {
+                    b.HasOne("HMS.Entities.App.Person", "Person")
+                        .WithMany("PersonMarriage")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("HMS.Entities.App.Structure", b =>

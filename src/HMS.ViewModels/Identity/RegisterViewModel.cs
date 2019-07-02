@@ -27,7 +27,7 @@ namespace HMS.ViewModels.Identity
         public string LastName { get; set; }
 
         [Display(Name = "سطح دسترسی")]
-        [Required(ErrorMessage = "(سطح دسترسی را مشخص نمایید)")]
+        //[Required(ErrorMessage = "(سطح دسترسی را مشخص نمایید)")]
         public string Location { get; set; }
 
         [Required(ErrorMessage = "(*)")]
