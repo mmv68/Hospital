@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using HMS.Services.Contracts.App;
 using System;
-using HMS.DataLayer.Context;
+using System.Diagnostics;
+using HMS.Entities.App;
 using HMS.Services.Identity;
 using Microsoft.AspNetCore.Authorization;
 
@@ -13,12 +14,10 @@ namespace HMS.Controllers
     public class BaseInformationController : Controller
     {
         private readonly IBaseInformationService _baseInformationService;
-        private readonly IUnitOfWork _uow;
 
-        public BaseInformationController(IBaseInformationService baseInformationService,IUnitOfWork uow)
+        public BaseInformationController(IBaseInformationService baseInformationService)
         {
             _baseInformationService = baseInformationService?? throw new ArgumentNullException(nameof(baseInformationService));
-            _uow = uow;
         }
         [DisplayName("بازیابی لیست های انخابی ")]
         public JsonResult GetBaseInformation(int id, int? parentid)
@@ -34,6 +33,15 @@ namespace HMS.Controllers
         {
             return Json(_baseInformationService.GetBaseInformations(id).Value);
         }
+         public JsonResult SetBaseInformation(BaseInformation baseInformation)
+         {
+             Debug.Assert(baseInformation.ParentId != null, "baseInformation.ParentId != null");
+             var lastBaseInformation= _baseInformationService.FindLastBaseInformation((int)baseInformation.ParentId);
+             baseInformation.Value = (short?)(lastBaseInformation.Id+1);
+             baseInformation.Type = lastBaseInformation.Title;
+             _baseInformationService.AddNewBaseInformation(baseInformation);
+             return Json("Success");
+         }
 
     }
 }

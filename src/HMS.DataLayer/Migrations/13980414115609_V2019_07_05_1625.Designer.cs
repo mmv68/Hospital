@@ -10,15 +10,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HMS.DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("13980409114008_V2019_06_30_1609")]
-    partial class V2019_06_30_1609
+    [Migration("13980414115609_V2019_07_05_1625")]
+    partial class V2019_07_05_1625
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("hms")
-                .HasAnnotation("ProductVersion", "2.2.1-servicing-10028")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -180,6 +180,35 @@ namespace HMS.DataLayer.Migrations
                     b.ToTable("Persons");
                 });
 
+            modelBuilder.Entity("HMS.Entities.App.PersonAdditionalInformation", b =>
+                {
+                    b.Property<int>("PersonId");
+
+                    b.Property<byte?>("BloodGroup");
+
+                    b.Property<short?>("ClothingSize");
+
+                    b.Property<short?>("CoverSize");
+
+                    b.Property<string>("EyeColor");
+
+                    b.Property<string>("HairColor");
+
+                    b.Property<short?>("Height");
+
+                    b.Property<short?>("PantsSize");
+
+                    b.Property<short?>("ShoeSize");
+
+                    b.Property<short?>("Weight");
+
+                    b.Property<short?>("Wrist");
+
+                    b.HasKey("PersonId");
+
+                    b.ToTable("PersonAdditionalInformations");
+                });
+
             modelBuilder.Entity("HMS.Entities.App.PersonEducation", b =>
                 {
                     b.Property<int>("Id")
@@ -303,6 +332,9 @@ namespace HMS.DataLayer.Migrations
 
                     b.HasIndex("CityId");
 
+                    b.HasIndex("Mobile")
+                        .HasName("IX_PersonLocation");
+
                     b.HasIndex("PersonId");
 
                     b.HasIndex("ProvianceId");
@@ -364,13 +396,81 @@ namespace HMS.DataLayer.Migrations
                     b.ToTable("PersonMarriages");
                 });
 
-            modelBuilder.Entity("HMS.Entities.App.Structure", b =>
+            modelBuilder.Entity("HMS.Entities.App.Personnel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<short?>("City");
+                    b.Property<string>("CardNumber")
+                        .HasColumnType("varchar(10)");
+
+                    b.Property<string>("Code")
+                        .HasColumnType("varchar(10)");
+
+                    b.Property<int?>("ConditionId");
+
+                    b.Property<byte?>("DegreeApproved");
+
+                    b.Property<byte?>("DegreeSalary");
+
+                    b.Property<DateTime>("EntryDateCorps")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("EntryDateHealthcare")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("EntryDateTreatmentcenter")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("ExportDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("JobCode")
+                        .HasColumnType("varchar(40)");
+
+                    b.Property<string>("JobName");
+
+                    b.Property<DateTime>("MembershipDate")
+                        .HasColumnType("date");
+
+                    b.Property<int?>("MembershipTypeId");
+
+                    b.Property<int?>("MilitaryBranchId");
+
+                    b.Property<int>("PersonId");
+
+                    b.Property<byte?>("Rating");
+
+                    b.Property<int>("StructureId");
+
+                    b.Property<DateTime>("TransferInDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime>("TransferOutDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConditionId");
+
+                    b.HasIndex("MembershipTypeId");
+
+                    b.HasIndex("MilitaryBranchId");
+
+                    b.HasIndex("PersonId");
+
+                    b.HasIndex("StructureId");
+
+                    b.ToTable("Personnel");
+                });
+
+            modelBuilder.Entity("HMS.Entities.App.Structure", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("City");
 
                     b.Property<string>("Code")
                         .HasMaxLength(30);
@@ -412,7 +512,6 @@ namespace HMS.DataLayer.Migrations
                     b.Property<byte?>("Proviance");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
@@ -944,6 +1043,14 @@ namespace HMS.DataLayer.Migrations
                         .HasForeignKey("RelationId");
                 });
 
+            modelBuilder.Entity("HMS.Entities.App.PersonAdditionalInformation", b =>
+                {
+                    b.HasOne("HMS.Entities.App.Person", "Person")
+                        .WithOne("PersonAdditionalInformation")
+                        .HasForeignKey("HMS.Entities.App.PersonAdditionalInformation", "PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("HMS.Entities.App.PersonEducation", b =>
                 {
                     b.HasOne("HMS.Entities.App.BaseInformation", "CertificateType")
@@ -994,6 +1101,31 @@ namespace HMS.DataLayer.Migrations
                     b.HasOne("HMS.Entities.App.Person", "Person")
                         .WithMany("PersonMarriage")
                         .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("HMS.Entities.App.Personnel", b =>
+                {
+                    b.HasOne("HMS.Entities.App.BaseInformation", "Condition")
+                        .WithMany("PersonnelCondition")
+                        .HasForeignKey("ConditionId");
+
+                    b.HasOne("HMS.Entities.App.BaseInformation", "MembershipType")
+                        .WithMany("PersonnelMembershipType")
+                        .HasForeignKey("MembershipTypeId");
+
+                    b.HasOne("HMS.Entities.App.BaseInformation", "MilitaryBranch")
+                        .WithMany("PersonnelMilitaryBranch")
+                        .HasForeignKey("MilitaryBranchId");
+
+                    b.HasOne("HMS.Entities.App.Person", "Person")
+                        .WithMany("Personnel")
+                        .HasForeignKey("PersonId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("HMS.Entities.App.Structure", "Structure")
+                        .WithMany("Personnel")
+                        .HasForeignKey("StructureId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

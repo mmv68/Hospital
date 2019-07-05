@@ -1,12 +1,12 @@
-﻿namespace HMS.Entities.App
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using AuditableEntity;
-    using Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using HMS.Entities.AuditableEntity;
+using HMS.Entities.Enums;
 
+namespace HMS.Entities.App
+{
     /// <summary>
     /// جهت نگهداری و مدیریت اطلاعات سرمایه انسانی سامانه
     /// </summary>
@@ -20,7 +20,9 @@
         {
             Children=new HashSet<Person>();
             PersonEducation=new HashSet<PersonEducation>();
+            PersonLocation=new HashSet<PersonLocation>();
             PersonMarriage=new HashSet<PersonMarriage>();
+            Personnel=new HashSet<Personnel>();
         }
         #endregion
 
@@ -213,6 +215,14 @@
         /// Gets or sets the  محل سکونت فرد 
         /// </summary>
         public virtual ICollection<PersonLocation> PersonLocation { get; set; }
+
+        [InverseProperty("Person")]
+        public virtual PersonAdditionalInformation PersonAdditionalInformation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the  اطلاعات پرسنلی
+        /// </summary>
+        public virtual ICollection<Personnel> Personnel { get; set; }
 
         #endregion
 

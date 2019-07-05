@@ -1,18 +1,103 @@
-﻿@model IEnumerable<HMS.Entities.App.BaseInformation>
-
+﻿
 @{
     ViewData["Title"] = "اطلاعات پایه سیستم";
 }
-
-<div class="k-rtl demo-section k-content">
-    @(Html.Kendo().TreeView()
-          .Name("treeview")
-          .DataTextField("Name")
-          .DataSource(dataSource => dataSource
-              .Read(read => read
-                  .Action("GetTreeBaseInformation", "BaseInformation")
-              )
-          )
-          )
+<div class="alert alert-warning top30">
+    <a href="#" class="close" data-dismiss="alert">×</a>
+    <ul>
+        <li>با دقت جهت تعریف اطلاعات پایه عمل نمایید و حتما از انتخاب گروه مناسب جهت تعریف اطلاعات پایه مطمئن شوید </li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <div id="CrudPanel" class="k-group">
+            <div class="col-lg-7 pull-right">
+                <input type="text" id="txtLocationTitle" class="form-control" />
+            </div>
+            <div class="col-lg-5 pull-left" >
+                <button data-toggle="tooltip" data-placement="left" title="افزودن" id="btnAddLocation" class="btn btn-sm btn-success">
+                    <i class="fas fa-plus-square"></i>
+                </button>
+                <button data-toggle="tooltip" data-placement="left" title="ویرایش" id="btnEditLocation" class="btn btn-sm btn-info">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="k-rtl demo-section k-content">
+            @(Html.Kendo().TreeView()
+                  .Name("BaseInformationTreeView")
+                  .DataTextField("Name")
+                  .DataSource(dataSource => dataSource
+                      .Read(read => read
+                          .Action("GetTreeBaseInformation", "BaseInformation")
+                      )
+                  )
+                  )
+        </div>
+    </div>
+</div>
+<div id="EditPanel" class="row edit hide treeview-panel">
+    <div class="col-lg-7 pull-right">
+        <input type="text" id="txtLocationEditTitle" class="form-control" />
+    </div>
+    <div class="col-lg-5 pull-left" style="text-align: left">
+        <input type="button" value="ویرایش" id="btnEditPanelLocation" data-code="" data-parentId="" class="btn btn-sm btn-success" />
+        <input type="button" value="انصراف" id="btnCancle" class="btn btn-sm btn-info" />
+    </div>
 </div>
 
+<style type="text/css">
+    .treeview-style {
+        min-height: 86px;
+        max-height: 300px;
+        overflow: scroll;
+        overflow-x: hidden;
+        position: relative;
+    }
+
+    .treeview-panel {
+        background-color: #eee;
+        padding: 25px 0 25px 0;
+    }
+
+    .hide {
+        display: none;
+    }
+</style>
+<script type="text/javascript">
+    var treeview = null;
+    $(function() {
+        treeview = window.$("#BaseInformationTreeView").data("kendoTreeView");
+    });
+
+</script>
+<script type="text/javascript">
+    $(document).on('click', '#btnAddLocation', function () {
+        var title = window.$('#txtLocationTitle').val();
+        var selectedNodeId = null;
+        var selectedNode = treeview.select();
+        if (selectedNode.length == 0) {
+            selectedNode = null;
+        }
+        else {
+            selectedNodeId = treeview.dataItem(selectedNode).id;// گرفتن آی دی گره انتخاب شده
+        }
+        $.ajax({
+            url: '@Url.Action("SetBaseInformation", "BaseInformation")',
+            type: 'POST',
+            data: { title: title, parentId: selectedNodeId },
+            success: function (data) {
+                debugger;
+                window.showMessage(data.message, data.notificationType);
+                if (data.result)
+                    treeview.dataSource.read();
+            },
+            error: function () {
+                window.showMessage('لطفا مجددا تلاش نمایید', 'warning');
+            }
+        });
+
+    });
+</script>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +9,7 @@ using HMS.DataLayer.Context;
 using HMS.Entities.App;
 using HMS.Services.Contracts.App;
 using HMS.ViewModels.App;
+using Kendo.Mvc.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMS.Services.App
@@ -24,14 +26,10 @@ namespace HMS.Services.App
             _baseInformation = _uow.Set<BaseInformation>();
         }
 
-        public void AddNewBaseInformation(BaseInformation baseInformation)
+        public async Task AddNewBaseInformation(BaseInformation baseInformation)
         {
-            _baseInformation.Add(baseInformation);
-        }
-
-        public IReadOnlyList<BaseInformation> GetBaseInformations()
-        {
-            return _baseInformation.AsNoTracking().ToList();
+           await _baseInformation.AddAsync(baseInformation);
+           await _uow.SaveChangesAsync();
         }
 
         public JsonResult GetBaseInformations(int? id)
@@ -50,21 +48,6 @@ namespace HMS.Services.App
 
 
             return new JsonResult(bf.ToList());
-        }
-
-        public async Task<SelectList> SelectItemBaseInformations(int baseInformationHeaderId)
-        {
-            return new SelectList(await _baseInformation.AsNoTracking()
-                .Select(a => new { a.Value, a.Title })
-                .ToListAsync().ConfigureAwait(false), "Value", "Title");
-        }
-
-        public async Task<SelectList> SelectItemBaseInformations(int baseInformationHeaderId, int parentId)
-        {
-            return new SelectList(await _baseInformation.AsNoTracking()
-                .Where(x => x.ParentId == parentId)
-                .Select(a => new { a.Value, a.Title })
-                .ToListAsync().ConfigureAwait(false), "Value", "Title");
         }
 
         public IReadOnlyList<SelectedListBaseInformation> SelectListBaseInformations(int baseInformationHeaderId)
@@ -88,6 +71,18 @@ namespace HMS.Services.App
                         Title = baseInformatio.Title
                     }).ToList();
         }
+
+        public  SelectedListBaseInformation FindLastBaseInformation(int id)
+        {
+            var lastBaseInformation = _baseInformation.LastOrDefault(x => x.ParentId ==id);
+           var selectedListBaseInformation = new SelectedListBaseInformation
+           {
+               Title = lastBaseInformation.Type,
+               Id = (int)lastBaseInformation.Value
+           };
+            return selectedListBaseInformation;
+        }
+
     }
 }
 

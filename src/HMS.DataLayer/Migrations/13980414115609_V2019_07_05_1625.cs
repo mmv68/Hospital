@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HMS.DataLayer.Migrations
 {
-    public partial class V2019_06_30_1609 : Migration
+    public partial class V2019_07_05_1625 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -183,15 +183,14 @@ namespace HMS.DataLayer.Migrations
                 schema: "hms",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<int>(nullable: false),
                     ParentId = table.Column<int>(nullable: true),
                     Code = table.Column<string>(maxLength: 30, nullable: true),
-                    Title = table.Column<string>(maxLength: 100, nullable: false),
+                    Title = table.Column<string>(maxLength: 100, nullable: true),
                     Phone = table.Column<string>(maxLength: 11, nullable: true),
                     Kousar = table.Column<string>(maxLength: 5, nullable: true),
                     Proviance = table.Column<byte>(nullable: true),
-                    City = table.Column<short>(nullable: true),
+                    City = table.Column<int>(nullable: true),
                     IsActive = table.Column<bool>(nullable: true),
                     CreatedByBrowserName = table.Column<string>(maxLength: 1000, nullable: true),
                     CreatedByIp = table.Column<string>(maxLength: 255, nullable: true),
@@ -501,6 +500,35 @@ namespace HMS.DataLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PersonAdditionalInformations",
+                schema: "hms",
+                columns: table => new
+                {
+                    PersonId = table.Column<int>(nullable: false),
+                    BloodGroup = table.Column<byte>(nullable: true),
+                    HairColor = table.Column<string>(nullable: true),
+                    EyeColor = table.Column<string>(nullable: true),
+                    Weight = table.Column<short>(nullable: true),
+                    Height = table.Column<short>(nullable: true),
+                    ShoeSize = table.Column<short>(nullable: true),
+                    Wrist = table.Column<short>(nullable: true),
+                    ClothingSize = table.Column<short>(nullable: true),
+                    CoverSize = table.Column<short>(nullable: true),
+                    PantsSize = table.Column<short>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PersonAdditionalInformations", x => x.PersonId);
+                    table.ForeignKey(
+                        name: "FK_PersonAdditionalInformations_Persons_PersonId",
+                        column: x => x.PersonId,
+                        principalSchema: "hms",
+                        principalTable: "Persons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PersonEducations",
                 schema: "hms",
                 columns: table => new
@@ -663,6 +691,73 @@ namespace HMS.DataLayer.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Personnel",
+                schema: "hms",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    PersonId = table.Column<int>(nullable: false),
+                    StructureId = table.Column<int>(nullable: false),
+                    Code = table.Column<string>(type: "varchar(10)", nullable: true),
+                    CardNumber = table.Column<string>(type: "varchar(10)", nullable: true),
+                    ExportDate = table.Column<DateTime>(type: "date", nullable: false),
+                    MembershipTypeId = table.Column<int>(nullable: true),
+                    MembershipDate = table.Column<DateTime>(type: "date", nullable: false),
+                    EntryDateCorps = table.Column<DateTime>(type: "date", nullable: false),
+                    EntryDateHealthcare = table.Column<DateTime>(type: "date", nullable: false),
+                    EntryDateTreatmentcenter = table.Column<DateTime>(type: "date", nullable: false),
+                    TransferInDate = table.Column<DateTime>(type: "date", nullable: false),
+                    TransferOutDate = table.Column<DateTime>(type: "date", nullable: false),
+                    MilitaryBranchId = table.Column<int>(nullable: true),
+                    DegreeApproved = table.Column<byte>(nullable: true),
+                    DegreeSalary = table.Column<byte>(nullable: true),
+                    Rating = table.Column<byte>(nullable: true),
+                    ConditionId = table.Column<int>(nullable: true),
+                    JobCode = table.Column<string>(type: "varchar(40)", nullable: true),
+                    JobName = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Personnel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Personnel_BaseInformations_ConditionId",
+                        column: x => x.ConditionId,
+                        principalSchema: "hms",
+                        principalTable: "BaseInformations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Personnel_BaseInformations_MembershipTypeId",
+                        column: x => x.MembershipTypeId,
+                        principalSchema: "hms",
+                        principalTable: "BaseInformations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Personnel_BaseInformations_MilitaryBranchId",
+                        column: x => x.MilitaryBranchId,
+                        principalSchema: "hms",
+                        principalTable: "BaseInformations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Personnel_Persons_PersonId",
+                        column: x => x.PersonId,
+                        principalSchema: "hms",
+                        principalTable: "Persons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Personnel_Structures_StructureId",
+                        column: x => x.StructureId,
+                        principalSchema: "hms",
+                        principalTable: "Structures",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AppDataProtectionKeys_FriendlyName",
                 schema: "hms",
@@ -778,6 +873,12 @@ namespace HMS.DataLayer.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PersonLocation",
+                schema: "hms",
+                table: "PersonLocations",
+                column: "Mobile");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PersonLocations_PersonId",
                 schema: "hms",
                 table: "PersonLocations",
@@ -806,6 +907,36 @@ namespace HMS.DataLayer.Migrations
                 schema: "hms",
                 table: "PersonMarriages",
                 column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personnel_ConditionId",
+                schema: "hms",
+                table: "Personnel",
+                column: "ConditionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personnel_MembershipTypeId",
+                schema: "hms",
+                table: "Personnel",
+                column: "MembershipTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personnel_MilitaryBranchId",
+                schema: "hms",
+                table: "Personnel",
+                column: "MilitaryBranchId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personnel_PersonId",
+                schema: "hms",
+                table: "Personnel",
+                column: "PersonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Personnel_StructureId",
+                schema: "hms",
+                table: "Personnel",
+                column: "StructureId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Persons_BrithPlaceCityId",
@@ -901,6 +1032,10 @@ namespace HMS.DataLayer.Migrations
                 schema: "hms");
 
             migrationBuilder.DropTable(
+                name: "PersonAdditionalInformations",
+                schema: "hms");
+
+            migrationBuilder.DropTable(
                 name: "PersonEducations",
                 schema: "hms");
 
@@ -913,7 +1048,7 @@ namespace HMS.DataLayer.Migrations
                 schema: "hms");
 
             migrationBuilder.DropTable(
-                name: "Structures",
+                name: "Personnel",
                 schema: "hms");
 
             migrationBuilder.DropTable(
@@ -926,6 +1061,10 @@ namespace HMS.DataLayer.Migrations
 
             migrationBuilder.DropTable(
                 name: "Persons",
+                schema: "hms");
+
+            migrationBuilder.DropTable(
+                name: "Structures",
                 schema: "hms");
 
             migrationBuilder.DropTable(

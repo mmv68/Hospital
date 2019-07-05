@@ -1,0 +1,95 @@
+﻿@model IEnumerable<HMS.Entities.App.PersonAdditionalInformation>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BloodGroup)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HairColor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EyeColor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShoeSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Wrist)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClothingSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CoverSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PantsSize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Person)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BloodGroup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HairColor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EyeColor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShoeSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Wrist)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClothingSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CoverSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PantsSize)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person.FatherName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PersonId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.PersonId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.PersonId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

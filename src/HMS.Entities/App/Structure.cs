@@ -14,26 +14,27 @@ namespace HMS.Entities.App
 
         #endregion
         #region Properties
-        public int Id { get; set; }
+        public ushort Id { get; set; }
         [ForeignKey("Parent")]
-        public int? ParentId { get; set; }
+        public ushort? ParentId { get; set; }
         [StringLength(30)]
         public string Code { get; set; }
         [StringLength(100)]
-        [Required]
         public string Title { get; set; }
         [StringLength(11)]
         public string Phone { get; set; }
         [StringLength(5)]
         public string Kousar { get; set; }
         public byte? Proviance { get; set; }
-        public short? City { get; set; }
+        public ushort? City { get; set; }
         public bool? IsActive { get; set; }
         #endregion
         #region NavigationProperties      
         public virtual Structure Parent { get; set; }
         [InverseProperty("Parent")]
         public virtual ICollection<Structure> Children { get; set; }
+        [InverseProperty("Structure")]
+        public virtual ICollection<Personnel> Personnel { get; set; }
         #endregion
 
     }
