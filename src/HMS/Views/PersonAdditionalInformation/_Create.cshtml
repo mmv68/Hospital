@@ -1,0 +1,89 @@
+﻿@model PersonAdditionalInformationViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<input asp-for="PersonId" type="hidden" value="@Context.Request.Query["personId"]" />
+<div class="row">
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="BloodGroup" class="control-label"></label>
+            <select asp-for="BloodGroup" asp-items="Html.GetEnumSelectList<BloodGroup>()" class="form-control">
+                <option disabled selected>--- انتخاب ---</option>
+            </select>
+            <span asp-validation-for="BloodGroup" class="text-danger"></span>
+        </div>
+    </div> 
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="HairColor" class="control-label"></label>
+            <input asp-for="HairColor" class="form-control" />
+            <span asp-validation-for="HairColor" class="text-danger"></span>
+        </div>
+    </div> 
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="EyeColor" class="control-label"></label>
+            <input asp-for="EyeColor" class="form-control" />
+            <span asp-validation-for="EyeColor" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="Weight" class="control-label"></label>
+            <input asp-for="Weight" class="form-control" />
+            <span asp-validation-for="Weight" class="text-danger"></span>
+        </div>
+    </div> 
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="Height" class="control-label"></label>
+            <input asp-for="Height" class="form-control" />
+            <span asp-validation-for="Height" class="text-danger"></span>
+        </div>
+    </div> 
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="ShoeSize" class="control-label"></label>
+            <input asp-for="ShoeSize" class="form-control" />
+            <span asp-validation-for="ShoeSize" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="Wrist" class="control-label"></label>
+            <input asp-for="Wrist" class="form-control" />
+            <span asp-validation-for="Wrist" class="text-danger"></span>
+        </div>
+    </div> 
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="ClothingSize" class="control-label"></label>
+            <input asp-for="ClothingSize" class="form-control" />
+            <span asp-validation-for="ClothingSize" class="text-danger"></span>
+        </div>
+    </div> 
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="CoverSize" class="control-label"></label>
+            <input asp-for="CoverSize" class="form-control" />
+            <span asp-validation-for="CoverSize" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="PantsSize" class="control-label"></label>
+            <input asp-for="PantsSize" class="form-control" />
+            <span asp-validation-for="PantsSize" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <input type="submit" value="ثبت" class="btn btn-primary" />
+    <a class="btn btn-danger" href="javascript:parent.jQuery.fancybox.close();" style="cursor: pointer; text-decoration: none; ">بستن</a>
+</div>
+

@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using HMS.Entities.AuditableEntity;
 using HMS.Entities.Enums;
 
 namespace HMS.Entities.App
 {
-    public class PersonAdditionalInformation
+    public class PersonAdditionalInformation : IAuditableEntity
     {
-        [Key,ForeignKey("Person")]
+        [Key, ForeignKey("Person")]
         public int PersonId { get; set; }
         public BloodGroup? BloodGroup { get; set; }
         public string HairColor { get; set; }

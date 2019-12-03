@@ -1,29 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HMS.DataLayer.Context;
 using HMS.Entities.App;
+using HMS.Services.Identity;
+using HMS.ViewModels.App;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HMS.Controllers
 {
+    [Authorize(Policy = ConstantPolicies.DynamicPermission)]
+    [DisplayName("مدیریت و نگهداری اطلاعات تکمیلی")]
     public class PersonAdditionalInformationController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public PersonAdditionalInformationController(ApplicationDbContext context)
+        public PersonAdditionalInformationController(ApplicationDbContext context,IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
+
         // GET: PersonAdditionalInformation
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int id, string title)
         {
-            var applicationDbContext = _context.PersonAdditionalInformations.Include(p => p.Person);
-            return View(await applicationDbContext.ToListAsync());
+            return View();
+        }
+        public JsonResult GetPersonAdditionalInformation(DataSourceRequest request, int id)
+        {
+            return Json(_context.PersonAdditionalInformations.Where(x => x.PersonId == id)
+                .ToList().ToDataSourceResult(request));
         }
 
         // GET: PersonAdditionalInformation/Details/5
@@ -48,7 +63,6 @@ namespace HMS.Controllers
         // GET: PersonAdditionalInformation/Create
         public IActionResult Create()
         {
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "FatherName");
             return View();
         }
 
@@ -57,16 +71,12 @@ namespace HMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonId,BloodGroup,HairColor,EyeColor,Weight,Height,ShoeSize,Wrist,ClothingSize,CoverSize,PantsSize")] PersonAdditionalInformation personAdditionalInformation)
+        public async Task<IActionResult> Create( PersonAdditionalInformation personAdditionalInformation)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(personAdditionalInformation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "FatherName", personAdditionalInformation.PersonId);
-            return View(personAdditionalInformation);
+            if (!ModelState.IsValid) return PartialView("_Create");
+            _context.Add(personAdditionalInformation);
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+            return Content("Success");
         }
 
         // GET: PersonAdditionalInformation/Edit/5
@@ -77,12 +87,11 @@ namespace HMS.Controllers
                 return NotFound();
             }
 
-            var personAdditionalInformation = await _context.PersonAdditionalInformations.FindAsync(id);
+            var personAdditionalInformation = await _context.PersonAdditionalInformations.FindAsync(id).ConfigureAwait(false);
             if (personAdditionalInformation == null)
             {
                 return NotFound();
             }
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "FatherName", personAdditionalInformation.PersonId);
             return View(personAdditionalInformation);
         }
 
@@ -91,7 +100,7 @@ namespace HMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonId,BloodGroup,HairColor,EyeColor,Weight,Height,ShoeSize,Wrist,ClothingSize,CoverSize,PantsSize")] PersonAdditionalInformation personAdditionalInformation)
+        public async Task<IActionResult> Edit(int id,PersonAdditionalInformation personAdditionalInformation)
         {
             if (id != personAdditionalInformation.PersonId)
             {
@@ -116,10 +125,9 @@ namespace HMS.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Content("Success");
             }
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "FatherName", personAdditionalInformation.PersonId);
-            return View(personAdditionalInformation);
+            return PartialView("_Create");
         }
 
         // GET: PersonAdditionalInformation/Delete/5

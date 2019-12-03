@@ -31,6 +31,8 @@
 <div class="row k-rtl">
     <div class="col-md-12">
         <form asp-action="Edit" data-ajax="true" data-ajax-method="POST" data-ajax-success="OnSuccess">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Timestamp" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="panel panel-info">
                 <div class="panel-heading">مشخصات فردی</div>
@@ -354,7 +356,7 @@
             id: (BrithPlaceSectionId).value
         };
     }
-    kendo.syncReady(function () { jQuery("#BrithDate").kendoDatePicker({ "format": "yyyy/MM/dd" }); });
+    //kendo.syncReady(function () { jQuery("#BrithDate").kendoDatePicker({ "format": "yyyy/MM/dd" }); });
 </script>
 <style>
     .k-dropdowntree {

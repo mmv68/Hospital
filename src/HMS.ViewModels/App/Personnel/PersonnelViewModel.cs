@@ -14,6 +14,8 @@ namespace HMS.ViewModels.App
         [Display(Name = "رده")]
         [Required(ErrorMessage = "ورود رده فرد اجباری می باشد!")]
         public ushort StructureId { get; set; }
+        [Display(Name = "رده")]
+        public string StructureName { get; set; }
         [Display(Name = "کد پرسنلی")]
         [MaxLength(10,ErrorMessage = "محدودیت شما در ورود تعداد ارقام 10 می باشد!")]
         public string Code { get; set; }
@@ -24,6 +26,8 @@ namespace HMS.ViewModels.App
         public DateTime? ExportDate { get; set; }
         [Display(Name = "نوع عضویت")]
         public int? MembershipTypeId { get; set; }
+        [Display(Name = "نوع عضویت")]
+        public string MembershipTypeName { get; set; }
         [Display(Name = "تاریخ عضویت")]
         public DateTime? MembershipDate { get; set; }
         [Display(Name = "تاریخ ورود به سپاه")]
@@ -38,6 +42,8 @@ namespace HMS.ViewModels.App
         public DateTime? TransferOutDate { get; set; }
         [Display(Name = "رسته")]
         public int? MilitaryBranchId { get; set; }
+        [Display(Name = "رسته")]
+        public int? MilitaryBranchName { get; set; }
         [Display(Name = "درجه مصوب")]
         public byte? DegreeApproved { get; set; }
         [Display(Name = "درجه حقوق")]
@@ -46,6 +52,8 @@ namespace HMS.ViewModels.App
         public byte? Rating { get; set; }
         [Display(Name = "وضعیت خدمتی")]
         public int? ConditionId { get; set; }
+        [Display(Name = "وضعیت خدمتی")]
+        public string ConditionName { get; set; }
         [Display(Name = "کد شغل")]
         public string JobCode { get; set; }
         [Display(Name = "نام شغل")]

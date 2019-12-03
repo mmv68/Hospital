@@ -1,10 +1,9 @@
-﻿@model PersonAdditionalInformationViewModel
-@{
-    ViewData["Title"] = "اطلاعات تکمیلی";
+﻿@{
+    ViewData["Title"] = "پرسنل";
     Layout = "_EditLayout";
 }
 <div class="Person">
-    <span>اطلاعات تکمیلی</span>
+    <span>اطلاعات خدمتی</span>
     <span>@Context.Request.Query["title"]</span>
     <input type="hidden" id="PersonId" value="@Context.Request.Query["id"]" />
     <script type="text/javascript">
@@ -16,23 +15,23 @@
     </script>
 </div>
 <div class="k-rtl">
-    @(Html.Kendo().DataSource< PersonAdditionalInformationViewModel>()
-                .Name("PersonAdditionalInformationDataSource")
-                .Ajax(dataSource => dataSource.Read(read => read.Action("GetPersonAdditionalInformation", "PersonAdditionalInformation").Data("getPersonId"))
+    @(Html.Kendo().DataSource<PersonnelViewModel>()
+                .Name("PersonnelDataSource")
+                .Ajax(dataSource => dataSource.Read(read => read.Action("GetPersonnel", "Personnel").Data("getPersonId"))
                     .ServerOperation(false)
                 .PageSize(50)
                 )
     )
-    @(Html.Kendo().Grid<PersonAdditionalInformationViewModel>()
-            .Name("PersonAdditionalInformationGrid")
+    @(Html.Kendo().Grid<PersonnelViewModel>()
+            .Name("PersonnelGrid")
             .Columns(columns =>
             {
-                columns.Bound(e => e.BloodGroup).Filterable(x => x.Extra(false));
-                columns.Bound(e => e.EyeColor).Filterable(x => x.Extra(false));
-                columns.Bound(e => e.HairColor).Filterable(x => x.Extra(false));
-                columns.Bound(e => e.CoverSize).Filterable(x => x.Extra(false));
-                columns.Bound(e => e.ClothingSize).Filterable(x => x.Extra(false));
-                columns.Bound(e => e.Height).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.MembershipTypeName).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.Code).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.DegreeApproved).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.JobCode).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.JobName).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.ConditionName).Filterable(x => x.Extra(false));
                 columns.Command(command =>
                                     {
                                         command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit");
@@ -41,7 +40,7 @@
             })
             .ToolBar(toolbar =>
                 {
-                    toolbar.Custom().Text("ایجاد").Name("InsertPersonAdditionalInformation");
+                    toolbar.Custom().Text("ایجاد").Name("InsertPersonnel");
                 })
             .Selectable(selectable =>
             {
@@ -64,17 +63,17 @@
             .Info("مشخصات")
             .SelectedItemsFormat("تعداد انتخاب ها:{0}")))
             .Scrollable()
-            .DataSource("PersonAdditionalInformationDataSource")
+            .DataSource("PersonnelDataSource")
     )
     <script>
         $(function () {
-            var grid = window.$("#PersonAdditionalInformationGrid").data("kendoGrid");
+            var grid = window.$("#PersonnelGrid").data("kendoGrid");
             window.$(".k-grid-SaveGridSetting").click(function (e) {
                 e.preventDefault();
-                localStorage["PersonAdditionalInformationGrid-options"] = window.kendo.stringify(grid.getOptions());
+                localStorage["PersonnelGrid-options"] = window.kendo.stringify(grid.getOptions());
             });
 
-            window.$(".k-grid-InsertPersonAdditionalInformation").click(function (e) {
+            window.$(".k-grid-InsertPersonnel").click(function (e) {
                 e.preventDefault();
                 var personId = window.$("#PersonId").val();
                 window.$.fancybox.open({
@@ -82,7 +81,7 @@
                     type: 'iframe',
                     opts: {
                         afterClose: function () {
-                            window.$('#PersonAdditionalInformationGrid').data('kendoGrid').dataSource.read();
+                            window.$('#PersonnelGrid').data('kendoGrid').dataSource.read();
                         }
                     }
                 });
@@ -99,7 +98,7 @@
         }); // close fancybox
     }); // close ready
 
-    function EditPersonAdditionalInformation(e) {
+    function EditPersonnel(e) {
         e.preventDefault();
         var id = this.dataItem(window.$(e.currentTarget).closest("tr")).Id;
         window.$.fancybox.open({
@@ -107,33 +106,35 @@
             type: 'iframe',
             opts: {
                 afterClose: function () {
-                    window.$('#PersonAdditionalInformationGrid').data('kendoGrid').dataSource.read();
+                    window.$('#PersonnelGrid').data('kendoGrid').dataSource.read();
                 }
             }
         });
     }
 
-    function DeletePersonAdditionalInformation() {
-        var id = @Context.Request.Query["id"];
+    function DeletePersonnel(e) {
+        e.preventDefault();
+        var id = this.dataItem(window.$(e.currentTarget).closest("tr")).Id;
         window.$.fancybox.open({
             src: '@Url.Action("Delete")/'+id,
             type: 'iframe',
             opts: {
                 afterClose: function () {
-                    window.$('#PersonAdditionalInformationGrid').data('kendoGrid').dataSource.read();
+                    window.$('#PersonnelGrid').data('kendoGrid').dataSource.read();
                 }
             }
         });
     }
 
-    function InsertPersonAdditionalInformation() {
+    function InsertPersonnelPersonnel(e) {
+        e.preventDefault();
         var id = @Context.Request.Query["id"];
         window.$.fancybox.open({
-            src: '@Url.Action("Create")/'+id,
+            src: '@Url.Action("Create","Personnel")/'+id,
             type: 'iframe',
             opts: {
                 afterClose: function () {
-                    window.$('#PersonAdditionalInformationGrid').data('kendoGrid').dataSource.read();
+                    $('#PersonnelGrid').data('kendoGrid').dataSource.read();
                 }
             }
         });

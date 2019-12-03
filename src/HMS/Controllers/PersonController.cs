@@ -105,7 +105,7 @@ namespace HMS.Controllers
                     _personService.UpdatePerson(person);
                     await _uow.SaveChangesAsync().ConfigureAwait(false);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (Exception ex)
                 {
                     if (!_personService.IsPersonExist(person.Id).Result)
                     {
@@ -113,7 +113,7 @@ namespace HMS.Controllers
                     }
                     else
                     {
-                        throw;
+                        return Content(ex.Message);
                     }
                 }
                 return Content("success");

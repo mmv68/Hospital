@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HMS.DataLayer.Migrations
 {
-    public partial class V2019_07_05_1625 : Migration
+    public partial class V2019_07_05_2242 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -514,7 +514,17 @@ namespace HMS.DataLayer.Migrations
                     Wrist = table.Column<short>(nullable: true),
                     ClothingSize = table.Column<short>(nullable: true),
                     CoverSize = table.Column<short>(nullable: true),
-                    PantsSize = table.Column<short>(nullable: true)
+                    PantsSize = table.Column<short>(nullable: true),
+                    CreatedByBrowserName = table.Column<string>(maxLength: 1000, nullable: true),
+                    CreatedByIp = table.Column<string>(maxLength: 255, nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
+                    CreatedDateTime = table.Column<DateTimeOffset>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: true),
+                    IsImported = table.Column<bool>(nullable: true),
+                    ModifiedByBrowserName = table.Column<string>(maxLength: 1000, nullable: true),
+                    ModifiedByIp = table.Column<string>(maxLength: 255, nullable: true),
+                    ModifiedByUserId = table.Column<int>(nullable: true),
+                    ModifiedDateTime = table.Column<DateTimeOffset>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -702,21 +712,31 @@ namespace HMS.DataLayer.Migrations
                     StructureId = table.Column<int>(nullable: false),
                     Code = table.Column<string>(type: "varchar(10)", nullable: true),
                     CardNumber = table.Column<string>(type: "varchar(10)", nullable: true),
-                    ExportDate = table.Column<DateTime>(type: "date", nullable: false),
+                    ExportDate = table.Column<DateTime>(type: "date", nullable: true),
                     MembershipTypeId = table.Column<int>(nullable: true),
-                    MembershipDate = table.Column<DateTime>(type: "date", nullable: false),
-                    EntryDateCorps = table.Column<DateTime>(type: "date", nullable: false),
-                    EntryDateHealthcare = table.Column<DateTime>(type: "date", nullable: false),
-                    EntryDateTreatmentcenter = table.Column<DateTime>(type: "date", nullable: false),
-                    TransferInDate = table.Column<DateTime>(type: "date", nullable: false),
-                    TransferOutDate = table.Column<DateTime>(type: "date", nullable: false),
+                    MembershipDate = table.Column<DateTime>(type: "date", nullable: true),
+                    EntryDateCorps = table.Column<DateTime>(type: "date", nullable: true),
+                    EntryDateHealthcare = table.Column<DateTime>(type: "date", nullable: true),
+                    EntryDateTreatmentcenter = table.Column<DateTime>(type: "date", nullable: true),
+                    TransferInDate = table.Column<DateTime>(type: "date", nullable: true),
+                    TransferOutDate = table.Column<DateTime>(type: "date", nullable: true),
                     MilitaryBranchId = table.Column<int>(nullable: true),
                     DegreeApproved = table.Column<byte>(nullable: true),
                     DegreeSalary = table.Column<byte>(nullable: true),
                     Rating = table.Column<byte>(nullable: true),
                     ConditionId = table.Column<int>(nullable: true),
                     JobCode = table.Column<string>(type: "varchar(40)", nullable: true),
-                    JobName = table.Column<string>(nullable: true)
+                    JobName = table.Column<string>(nullable: true),
+                    CreatedByBrowserName = table.Column<string>(maxLength: 1000, nullable: true),
+                    CreatedByIp = table.Column<string>(maxLength: 255, nullable: true),
+                    CreatedByUserId = table.Column<int>(nullable: true),
+                    CreatedDateTime = table.Column<DateTimeOffset>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: true),
+                    IsImported = table.Column<bool>(nullable: true),
+                    ModifiedByBrowserName = table.Column<string>(maxLength: 1000, nullable: true),
+                    ModifiedByIp = table.Column<string>(maxLength: 255, nullable: true),
+                    ModifiedByUserId = table.Column<int>(nullable: true),
+                    ModifiedDateTime = table.Column<DateTimeOffset>(nullable: true)
                 },
                 constraints: table =>
                 {

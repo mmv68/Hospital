@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using HMS.Entities.AuditableEntity;
 
 namespace HMS.Entities.App
 {
-    public class Personnel
+    public class Personnel:IAuditableEntity
     {
         public int Id { get; set; }
         [ForeignKey("Person")]

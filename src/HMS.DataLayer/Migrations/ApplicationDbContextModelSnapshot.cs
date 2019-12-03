@@ -188,11 +188,35 @@ namespace HMS.DataLayer.Migrations
 
                     b.Property<short?>("CoverSize");
 
+                    b.Property<string>("CreatedByBrowserName")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("CreatedByIp")
+                        .HasMaxLength(255);
+
+                    b.Property<int?>("CreatedByUserId");
+
+                    b.Property<DateTimeOffset?>("CreatedDateTime");
+
                     b.Property<string>("EyeColor");
 
                     b.Property<string>("HairColor");
 
                     b.Property<short?>("Height");
+
+                    b.Property<bool?>("IsDeleted");
+
+                    b.Property<bool?>("IsImported");
+
+                    b.Property<string>("ModifiedByBrowserName")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("ModifiedByIp")
+                        .HasMaxLength(255);
+
+                    b.Property<int?>("ModifiedByUserId");
+
+                    b.Property<DateTimeOffset?>("ModifiedDateTime");
 
                     b.Property<short?>("PantsSize");
 
@@ -408,33 +432,57 @@ namespace HMS.DataLayer.Migrations
 
                     b.Property<int?>("ConditionId");
 
+                    b.Property<string>("CreatedByBrowserName")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("CreatedByIp")
+                        .HasMaxLength(255);
+
+                    b.Property<int?>("CreatedByUserId");
+
+                    b.Property<DateTimeOffset?>("CreatedDateTime");
+
                     b.Property<byte?>("DegreeApproved");
 
                     b.Property<byte?>("DegreeSalary");
 
-                    b.Property<DateTime>("EntryDateCorps")
+                    b.Property<DateTime?>("EntryDateCorps")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("EntryDateHealthcare")
+                    b.Property<DateTime?>("EntryDateHealthcare")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("EntryDateTreatmentcenter")
+                    b.Property<DateTime?>("EntryDateTreatmentcenter")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("ExportDate")
+                    b.Property<DateTime?>("ExportDate")
                         .HasColumnType("date");
+
+                    b.Property<bool?>("IsDeleted");
+
+                    b.Property<bool?>("IsImported");
 
                     b.Property<string>("JobCode")
                         .HasColumnType("varchar(40)");
 
                     b.Property<string>("JobName");
 
-                    b.Property<DateTime>("MembershipDate")
+                    b.Property<DateTime?>("MembershipDate")
                         .HasColumnType("date");
 
                     b.Property<int?>("MembershipTypeId");
 
                     b.Property<int?>("MilitaryBranchId");
+
+                    b.Property<string>("ModifiedByBrowserName")
+                        .HasMaxLength(1000);
+
+                    b.Property<string>("ModifiedByIp")
+                        .HasMaxLength(255);
+
+                    b.Property<int?>("ModifiedByUserId");
+
+                    b.Property<DateTimeOffset?>("ModifiedDateTime");
 
                     b.Property<int>("PersonId");
 
@@ -442,10 +490,10 @@ namespace HMS.DataLayer.Migrations
 
                     b.Property<int>("StructureId");
 
-                    b.Property<DateTime>("TransferInDate")
+                    b.Property<DateTime?>("TransferInDate")
                         .HasColumnType("date");
 
-                    b.Property<DateTime>("TransferOutDate")
+                    b.Property<DateTime?>("TransferOutDate")
                         .HasColumnType("date");
 
                     b.HasKey("Id");

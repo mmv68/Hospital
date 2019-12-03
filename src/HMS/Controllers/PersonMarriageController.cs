@@ -30,7 +30,7 @@ namespace HMS.Controllers
         }
 
         // GET: PersonMarriage
-        public IActionResult Index()
+        public IActionResult Index(int id, string title)
         {
             return View();
         }

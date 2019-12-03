@@ -38,8 +38,8 @@ namespace HMS.Services.App
                         Title=structures.Title,
                         Code= structures.Code,
                         hasChildren = (from structure in _structures.AsNoTracking()
-                                       where structure.ParentId == structures.Id
-                                       select structure).Count() > 0
+                            where structure.ParentId == structures.Id
+                            select structure).Any()
                     }).ToList();
         }
 

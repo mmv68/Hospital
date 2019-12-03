@@ -46,7 +46,7 @@ namespace HMS.Areas.Identity.Controllers
         [NoBrowserCache]
         public IActionResult Index(string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
+            ViewData["ReturnUrl"]=returnUrl;
             return View();
         }
 

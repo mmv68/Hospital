@@ -1,0 +1,206 @@
+﻿@model PersonnelViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<input asp-for="PersonId" type="hidden" value="@Context.Request.Query["personId"]" />
+<div class="row">
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="StructureId" class="control-label"></label>
+                <kendo-dropdowntree name="StructureId" datatextfield="Title" datavaluefield="Id"
+                                    class="form-control" lang="fa-IR" style="width:100%">
+                    <hierarchical-datasource>
+                        <transport>
+                            <read url="@Url.Action("GetStructureTree","Structure")" />
+                        </transport>
+                        <schema type="json">
+                            <hierarchical-model id="Id" has-children="hasChildren"></hierarchical-model>
+                        </schema>
+                    </hierarchical-datasource>
+                </kendo-dropdowntree>
+            <span asp-validation-for="StructureId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="Code" class="control-label"></label>
+            <input asp-for="Code" class="form-control" />
+            <span asp-validation-for="Code" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="CardNumber" class="control-label"></label>
+            <input asp-for="CardNumber" class="form-control" />
+            <span asp-validation-for="CardNumber" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="ExportDate" class="control-label"></label>
+            <kendo-datepicker name="ExportDate" format="yyyy/MM/dd" style="width: 100%; direction: rtl" />
+            <span asp-validation-for="ExportDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="MembershipTypeId" class="control-label"></label>
+            <kendo-dropdownlist for="MembershipTypeId"
+                                no-data-template="داده ای یافت نگردید"
+                                datatextfield="Title" datavaluefield="Id"
+                                filter="FilterType.Contains" min-length="1"
+                                option-label="انتخاب نوع عضویت"
+                                class="form-control" lang="fa-IR" style="width:100%">
+                <datasource type="DataSourceTagHelperType.Custom"
+                            page-size="32">
+                    <transport>
+                        <read url="@Url.Action("GetBaseInformation","BaseInformation",new {id=2988})" />
+                    </transport>
+                </datasource>
+                <popup-animation>
+                    <open duration="200" />
+                    <close duration="300" />
+                </popup-animation>
+            </kendo-dropdownlist>
+            <span asp-validation-for="MembershipTypeId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="MembershipDate" class="control-label"></label>
+            <kendo-datepicker name="MembershipDate" format="yyyy/MM/dd" style="width: 100%; direction: rtl" />
+            <span asp-validation-for="MembershipDate" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="EntryDateCorps" class="control-label"></label>
+            <kendo-datepicker name="EntryDateCorps" format="yyyy/MM/dd" style="width: 100%; direction: rtl" />
+            <span asp-validation-for="EntryDateCorps" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="EntryDateHealthcare" class="control-label"></label>
+            <kendo-datepicker name="EntryDateHealthcare" format="yyyy/MM/dd" style="width: 100%; direction: rtl" />
+            <span asp-validation-for="EntryDateHealthcare" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="EntryDateTreatmentcenter" class="control-label"></label>
+            <kendo-datepicker name="EntryDateTreatmentcenter" format="yyyy/MM/dd" style="width: 100%; direction: rtl" />
+            <span asp-validation-for="EntryDateTreatmentcenter" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="TransferInDate" class="control-label"></label>
+            <kendo-datepicker name="TransferInDate" format="yyyy/MM/dd" style="width: 100%; direction: rtl" />
+            <span asp-validation-for="TransferInDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="TransferOutDate" class="control-label"></label>
+            <kendo-datepicker name="TransferOutDate" format="yyyy/MM/dd" style="width: 100%; direction: rtl" />
+            <span asp-validation-for="TransferOutDate" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="MilitaryBranchId" class="control-label"></label>
+            <kendo-dropdownlist for="MilitaryBranchId"
+                                no-data-template="داده ای یافت نگردید"
+                                datatextfield="Title" datavaluefield="Id"
+                                filter="FilterType.Contains" min-length="1"
+                                option-label="انتخاب رسته"
+                                class="form-control" lang="fa-IR" style="width:100%">
+                <datasource type="DataSourceTagHelperType.Custom"
+                            page-size="32">
+                    <transport>
+                        <read url="@Url.Action("GetBaseInformation","BaseInformation",new {id=2992})" />
+                    </transport>
+                </datasource>
+                <popup-animation>
+                    <open duration="200" />
+                    <close duration="300" />
+                </popup-animation>
+            </kendo-dropdownlist>
+            <span asp-validation-for="MilitaryBranchId" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="DegreeApproved" class="control-label"></label>
+            <input asp-for="DegreeApproved" class="form-control" />
+            <span asp-validation-for="DegreeApproved" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="DegreeSalary" class="control-label"></label>
+            <input asp-for="DegreeSalary" class="form-control" />
+            <span asp-validation-for="DegreeSalary" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="Rating" class="control-label"></label>
+            <input asp-for="Rating" class="form-control" />
+            <span asp-validation-for="Rating" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="ConditionId" class="control-label"></label>
+            <kendo-dropdownlist for="ConditionId"
+                                no-data-template="داده ای یافت نگردید"
+                                datatextfield="Title" datavaluefield="Id"
+                                filter="FilterType.Contains" min-length="1"
+                                option-label="انتخاب نوع وضعیت"
+                                class="form-control" lang="fa-IR" style="width:100%">
+                <datasource type="DataSourceTagHelperType.Custom"
+                            page-size="32">
+                    <transport>
+                        <read url="@Url.Action("GetBaseInformation","BaseInformation",new {id=2999})" />
+                    </transport>
+                </datasource>
+                <popup-animation>
+                    <open duration="200" />
+                    <close duration="300" />
+                </popup-animation>
+            </kendo-dropdownlist>
+            <span asp-validation-for="ConditionId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="JobCode" class="control-label"></label>
+            <input asp-for="JobCode" class="form-control" />
+            <span asp-validation-for="JobCode" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-xs-4">
+        <div class="form-group">
+            <label asp-for="JobName" class="control-label"></label>
+            <input asp-for="JobName" class="form-control" />
+            <span asp-validation-for="JobName" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <input type="submit" value="ثبت" class="btn btn-primary" />
+    <a class="btn btn-danger" href="javascript:parent.jQuery.fancybox.close();" style="cursor: pointer; text-decoration: none; ">بستن</a>
+</div>
+
+
