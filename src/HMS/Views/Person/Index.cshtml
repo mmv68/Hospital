@@ -26,6 +26,7 @@
                                                                              "<li onclick='DeletePerson(#= Id #)'><i class='fa red fa-window-close'></i> <span class='Menuli'>حذف</span></li>" +
                                                                              "<li onclick='InsertPersonEducation(#= Id #,\"#= FirstName # #= LastName #\")'><i class='fas fa-graduation-cap'></i><span class='Menuli'>تحصیلات</span></li>" +
                                                                              "<li onclick='InsertPersonLocation(#= Id #,\"#= FirstName # #= LastName #\")'><i class='fas fa-home'></i><span class='Menuli'>محل سکونت</span></li>" +
+                                                                             "<li onclick='InsertPersonPeyment(#= Id #,\"#= FirstName # #= LastName #\")'><i class='fas fa-dollar-sign'></i><span class='Menuli'>اطلاعات بانکی</span></li>" +
                                                                              "<li onclick='InsertPersonMarriage(#= Id #,\"#= FirstName # #= LastName #\")'><i class='fas fa-mars-double'></i><span class='Menuli'>تأهل</span></li>" +
                                                                              "<li onclick='InsertPersonAdditionalInformation(#= Id #,\"#= FirstName # #= LastName #\")'><i class='fas fa-newspaper'></i><span class='Menuli'>اطلاعات تکمیلی</span></li>" +
                                                                              "<li onclick='InsertPersonnel(#= Id #,\"#= FirstName # #= LastName #\")'><i class='fas fa-address-card'></i><span class='Menuli'>پرسنلی</span></li>" +
@@ -154,6 +155,16 @@
     function InsertPersonLocation(id, title) {
         window.$.fancybox.open({
             src: '@Url.Action("Index", "PersonLocation")?id=' + id + '&title=' + title,
+            type: 'iframe',
+            fullScreen: {
+                autoStart: false
+            }
+        });
+    }
+
+    function InsertPersonPeyment(id, title) {
+        window.$.fancybox.open({
+            src: '@Url.Action("Index", "PersonPeyment")?id=' + id + '&title=' + title,
             type: 'iframe',
             fullScreen: {
                 autoStart: false

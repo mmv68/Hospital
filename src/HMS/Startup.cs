@@ -25,6 +25,7 @@ namespace HMS
 
         public IConfiguration Configuration { get; }
 
+        [System.Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<SiteSettings>(options => Configuration.Bind(options));

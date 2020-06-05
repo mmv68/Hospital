@@ -1,0 +1,161 @@
+﻿@model PersonPaymentViewModel
+@{
+    ViewData["Title"] = "اطلاعات بانکی";
+    Layout = "_EditLayout";
+}
+<div class="Person">
+    <span>اطلاعات بانکی</span>
+    <span>@Context.Request.Query["title"]</span>
+    <input type="hidden" id="PersonId" value="@Context.Request.Query["id"]" />
+    <script type="text/javascript">
+        function getPersonId() {
+            return {
+                id: window.$("#PersonId").val()
+            }
+        }
+    </script>
+</div>
+<div class="k-rtl">
+    @(Html.Kendo().DataSource<PersonPaymentViewModel>()
+                .Name("PersonPaymentDataSource")
+                .Ajax(dataSource => dataSource.Read(read => read.Action("GetPersonPayment", "PersonPayment").Data("getPersonId"))
+                    .ServerOperation(false)
+                .PageSize(50)
+                )
+    )
+    @(Html.Kendo().Grid<PersonPaymentViewModel>()
+            .Name("PersonPaymentGrid")
+            .Columns(columns =>
+            {
+                columns.Bound(e => e.CardNumber).Width(180).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.AccountNumber).Width(150).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.ShabaNumber).Width(180).Filterable(x => x.Extra(false));
+                columns.Command(command =>
+                                    {
+                                        command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit");
+                                        command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close");
+                                    });
+            })
+            .ToolBar(toolbar =>
+                {
+                    toolbar.Custom().Text("ایجاد").Name("InsertPersonPayment");
+                })
+            .Selectable(selectable =>
+            {
+                selectable.Mode(GridSelectionMode.Multiple);
+                selectable.Type(GridSelectionType.Row);
+            })
+            .PersistSelection(true)
+            .Pageable(pageable => pageable
+                        .Refresh(true)
+                        .Input(true)
+                        .ButtonCount(5)
+                        .PageSizes(new[] { 10, 20, 30, 40, 50, 100 }))
+            .Navigatable()
+            .AllowCopy(true)
+            .Sortable(sortable => sortable.SortMode(GridSortMode.SingleColumn))
+            .Filterable(x => x
+            .Messages(c => c
+            .Search("جستجو")
+            .SelectValue("انتخاب شده ها")
+            .Info("مشخصات")
+            .SelectedItemsFormat("تعداد انتخاب ها:{0}")))
+            .Scrollable()
+            .DataSource("PersonPaymentDataSource")
+    )
+    <script>
+        $(function () {
+            var grid = window.$("#PersonPaymentGrid").data("kendoGrid");
+            window.$(".k-grid-SaveGridSetting").click(function (e) {
+                e.preventDefault();
+                localStorage["PersonPaymentGrid-options"] = window.kendo.stringify(grid.getOptions());
+            });
+
+            window.$(".k-grid-InsertPersonPayment").click(function (e) {
+                e.preventDefault();
+                window.$.fancybox.open({
+                    src: '@Url.Action("Create")?personId=' + window.$("#PersonId").val(),
+                    type: 'iframe',
+                    opts: {
+                        afterClose: function () {
+                            window.$('#PersonPaymentGrid').data('kendoGrid').dataSource.read();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        window.$(".createEdit").fancybox({
+            afterClose: function () {
+                alert(message);
+            }
+        }); // close fancybox
+    }); // close ready
+
+    function EditPersonPayment(e) {
+        e.preventDefault();
+        var id = this.dataItem(window.$(e.currentTarget).closest("tr")).Id;
+        window.$.fancybox.open({
+            src: '@Url.Action("Edit")/'+id,
+            type: 'iframe',
+            opts: {
+                afterClose: function () {
+                    window.$('#PersonPaymentGrid').data('kendoGrid').dataSource.read();
+                }
+            }
+        });
+    }
+
+    function DeletePersonPayment(e) {
+        e.preventDefault();
+        var id = this.dataItem(window.$(e.currentTarget).closest("tr")).Id;
+        window.$.fancybox.open({
+            src: '@Url.Action("Delete")/'+id,
+            type: 'iframe',
+            opts: {
+                afterClose: function () {
+                    window.$('#PersonPaymentGrid').data('kendoGrid').dataSource.read();
+                }
+            }
+        });
+    }
+
+    function InsertPersonPaymentPersonPayment(e) {
+        e.preventDefault();
+        var id = @Context.Request.Query["id"];
+        window.$.fancybox.open({
+            src: '@Url.Action("Create","PersonPayment")/'+id,
+            type: 'iframe',
+            opts: {
+                afterClose: function () {
+                    //$('#PersonPaymentGrid').data('kendoGrid').dataSource.read();
+                }
+            }
+        });
+    }
+
+</script>
+<style>
+    .fa {
+        margin-left: 4px;
+    }
+
+    .k-window-title {
+        float: right;
+        margin-right: 18px;
+    }
+
+    .Person {
+        width: 100%;
+        height: 64px;
+        border-radius: 25px 0 25px 0;
+        text-align: center;
+        font-size: 42px;
+        margin-bottom: 9px;
+        background-color: #4bc3b7;
+        color: #3F51B5;
+    }
+</style>

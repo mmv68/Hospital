@@ -26,7 +26,7 @@ namespace HMS.ViewModels.App
 
         [Display(Name = "نام خانوادگی")]
         [Required(ErrorMessage = "لطفا نام خانوادگی را وارد کنید")]
-        [StringLength(50, MinimumLength = 3, ErrorMessage = "نام خانوادگی باید بین سه تا ۵۰ کاراکتر باشد")]
+        [StringLength(50, MinimumLength = 2, ErrorMessage = "نام خانوادگی باید بین دو تا ۵۰ کاراکتر باشد")]
         [RegularExpression(@"^[\u0600-\u06FF,\u0590-\u05FF,0-9\s]*$", ErrorMessage = "لطفا فقط ازاعداد و حروف  فارسی برای نام  استفاده کنید")]
         public string LastName { get; set; }
 
@@ -40,7 +40,7 @@ namespace HMS.ViewModels.App
 
         [Display(Name = "شماره شناسنامه")]
         [Required(ErrorMessage = "لطفا شماره شناسنامه را وارد نمایید")]
-        [RegularExpression("[0-9]{2,10}", ErrorMessage = "لطفا شماره شناسنامه را به شکل صحیح وارد کنید")]
+        //[RegularExpression("[0-9]{2,10}", ErrorMessage = "لطفا شماره شناسنامه را به شکل صحیح وارد کنید")]
         public string IdentityNumber { get; set; }
 
         [Display(Name = "سری حروفی")]

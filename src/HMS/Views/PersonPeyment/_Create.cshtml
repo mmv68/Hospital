@@ -1,0 +1,43 @@
+﻿@model PersonPaymentViewModel
+<div class="row k-rtl">
+    <div class="col-md-12">
+        <form asp-action="Create" data-ajax="true" data-ajax-method="POST" data-ajax-success="OnSuccess">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="PersonId" type="hidden" value="@Context.Request.Query["personId"]" />
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label asp-for="AccountNumber" class="control-label"></label>
+                        <input asp-for="AccountNumber" class="form-control" />
+                        <span asp-validation-for="AccountNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label asp-for="ShabaNumber" class="control-label"></label>
+                        <input asp-for="ShabaNumber" class="form-control" />
+                        <span asp-validation-for="ShabaNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label asp-for="CardNumber" class="control-label"></label>
+                        <input asp-for="CardNumber" class="form-control" />
+                        <span asp-validation-for="CardNumber" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="ثبت" class="btn btn-primary" />
+                <a class="btn btn-danger" href="javascript:parent.jQuery.fancybox.close();" style="cursor: pointer; text-decoration: none; ">بستن</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .k-dropdowntree {
+        width: 100%;
+    }
+</style>
+

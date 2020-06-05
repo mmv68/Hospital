@@ -2,16 +2,20 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Globalization;
+
 using HMS.Entities.AuditableEntity;
 using HMS.Entities.Enums;
 
 namespace HMS.Entities.App
 {
+
     /// <summary>
     /// جهت نگهداری و مدیریت اطلاعات سرمایه انسانی سامانه
     /// </summary>
     public class Person : IAuditableEntity
     {
+        PersianCalendar pc = new PersianCalendar();
         #region Ctor
         /// <summary>
         /// Initializes a new instance of the <see cref="Person"/> class.
@@ -23,6 +27,7 @@ namespace HMS.Entities.App
             PersonLocation=new HashSet<PersonLocation>();
             PersonMarriage=new HashSet<PersonMarriage>();
             Personnel=new HashSet<Personnel>();
+            PersonPayment = new HashSet<PersonPayment>();
         }
         #endregion
 
@@ -106,7 +111,7 @@ namespace HMS.Entities.App
         /// Gets the سن
         /// </summary>
         [NotMapped]
-        public int? Age => (BrithDate != null) ? DateTimeOffset.UtcNow.Year - BrithDate.Value.Year : 0;
+        public int? Age => (BrithDate != null) ? pc.GetYear(DateTime.Now) - BrithDate.Value.Year : 0;
 
         /// <summary>
         /// Gets or sets the شناسه استان محل تولد
@@ -223,6 +228,11 @@ namespace HMS.Entities.App
         /// Gets or sets the  اطلاعات پرسنلی
         /// </summary>
         public virtual ICollection<Personnel> Personnel { get; set; }
+
+        /// <summary>
+        /// Gets or sets the  اطلاعات حساب های بانکی
+        /// </summary>
+        public virtual ICollection<PersonPayment> PersonPayment { get; set; }
 
         #endregion
 

@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "ایجاد";
+    Layout = "_EditLayout";
+}
+<script type="text/javascript">
+    function OnSuccess(response) {
+        if (response === "Success") {
+            window.swal({
+                position: 'center',
+                type: 'success',
+                title: 'اطلاعات با موفقیت ذخیره شد',
+                showConfirmButton: false,
+                target: document.getElementById('rtl-container'),
+                timer: 2500
+            });
+            setTimeout("parent.jQuery.fancybox.close()", 2000);
+        } else {
+            window.swal({
+                position: 'center',
+                type: 'error',
+                title: 'لطفاً خطاهای اتفاق افتاده را بررسی نمایید',
+                showConfirmButton: false,
+                target: document.getElementById('rtl-container'),
+                timer: 2500
+            });
+            window.$('#FormContent').html(response);
+        }
+    }
+</script>
+<div id="FormContent">
+    <partial name="_Create" />
+</div>

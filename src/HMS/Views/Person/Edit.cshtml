@@ -120,7 +120,8 @@
                                 <div class="col-xs-6">
                                     <div class="form-group">
                                         <label asp-for="BrithDate" class="control-label"></label>
-                                        <kendo-datepicker name="BrithDate" format="yyyy/MM/dd" style="width: 100%; direction: rtl" />
+                                        @*<kendo-datepicker name="BrithDate" format="yyyy/MM/dd" style="width: 100%; direction: rtl" />*@
+                                        <input asp-for="BrithDate" class="form-control" style="width:100%" />
                                         <span asp-validation-for="BrithDate" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -341,6 +342,7 @@
     });
 </script>
 <script type="text/javascript">
+    kendo.syncReady(function () { jQuery("#BrithDate").kendoDatePicker({ "format": "yyyy/MM/dd" }); });
     function TownshipId() {
         return {
             id: (BrithPlaceProvianceId).value
@@ -355,8 +357,7 @@
         return {
             id: (BrithPlaceSectionId).value
         };
-    }
-    //kendo.syncReady(function () { jQuery("#BrithDate").kendoDatePicker({ "format": "yyyy/MM/dd" }); });
+    }   
 </script>
 <style>
     .k-dropdowntree {
