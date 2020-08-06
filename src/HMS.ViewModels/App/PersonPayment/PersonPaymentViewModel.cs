@@ -9,7 +9,7 @@ namespace HMS.ViewModels.App
     {
         [ScaffoldColumn(false)]
         [Display(Name = "شناسه")]
-        public int id { get; set; }
+        public int Id { get; set; }
         [ScaffoldColumn(false)]
         [Display(Name = "شناسه فرد")]
         public int PersonId { get; set; }

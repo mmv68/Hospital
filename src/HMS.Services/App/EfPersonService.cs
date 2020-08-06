@@ -15,7 +15,6 @@ namespace HMS.Services.App
 {
     public class EfPersonService : IPersonService
     {
-        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly IUnitOfWork _uow;
         private readonly DbSet<Person> _persons;
         private readonly IMapper _mapper;
@@ -35,6 +34,7 @@ namespace HMS.Services.App
         public void UpdatePerson(EditPersonViewModel person)
         {
             _persons.Update(_mapper.Map<Person>(person));
+            _uow.SaveChanges();
         }
 
         public void DeletePerson(int id)

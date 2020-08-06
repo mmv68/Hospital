@@ -1,6 +1,7 @@
 ﻿using HMS.Entities.AuditableEntity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
@@ -9,7 +10,6 @@ namespace HMS.Entities.App
     public class PersonPayment:IAuditableEntity
     {
         #region Ctor
-
         #endregion
         #region Peroperties
         public int Id { get; set; }

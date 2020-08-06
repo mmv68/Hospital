@@ -1,8 +1,38 @@
 ﻿@model PersonPaymentViewModel
-<div class="row k-rtl">
+@{
+    ViewData["Title"] = "ویرایش حساب بانکی";
+    Layout = "_EditLayout";
+}
+<script type="text/javascript">
+    function OnSuccess(response) {
+        if (response === "Success") {
+            swal({
+                position: 'center',
+                type: 'success',
+                title: 'اطلاعات با موفقیت ویرایش شد',
+                showConfirmButton: false,
+                target: document.getElementById('rtl-container'),
+                timer: 2500
+            });
+            setTimeout("parent.jQuery.fancybox.close()", 2000);
+        } else {
+            swal({
+                position: 'center',
+                type: 'error',
+                title: 'لطفاً خطاهای اتفاق افتاده را بررسی نمایید',
+                showConfirmButton: false,
+                target: document.getElementById('rtl-container'),
+                timer: 2500
+            });
+        }
+    }
+</script>
+
+<div class="k-rtl">
     <div class="col-md-12">
-        <form asp-action="Create" data-ajax="true" data-ajax-method="POST" data-ajax-success="OnSuccess">
+        <form asp-action="Edit" data-ajax="true" data-ajax-method="POST" data-ajax-success="OnSuccess">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
             <input asp-for="PersonId" type="hidden" value="@Context.Request.Query["personId"]" />
             <div class="row">
                 <div class="col-xs-3">
@@ -34,4 +64,3 @@
         </form>
     </div>
 </div>
-

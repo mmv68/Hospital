@@ -18,7 +18,7 @@
 <div class="k-rtl">
     @(Html.Kendo().DataSource<PersonPaymentViewModel>()
                 .Name("PersonPaymentDataSource")
-                .Ajax(dataSource => dataSource.Read(read => read.Action("GetPersonPayment", "PersonPayment").Data("getPersonId"))
+                .Ajax(dataSource => dataSource.Read(read => read.Action("GetPersonPayment", "PersonPeyment").Data("getPersonId"))
                     .ServerOperation(false)
                 .PageSize(50)
                 )
@@ -32,8 +32,8 @@
                 columns.Bound(e => e.ShabaNumber).Width(180).Filterable(x => x.Extra(false));
                 columns.Command(command =>
                                     {
-                                        command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit");
-                                        command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close");
+                                        command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit").Click("EditPersonPayment");
+                                        command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close").Click("DeletePersonPayment");
                                     });
             })
             .ToolBar(toolbar =>
@@ -98,8 +98,9 @@
     function EditPersonPayment(e) {
         e.preventDefault();
         var id = this.dataItem(window.$(e.currentTarget).closest("tr")).Id;
+        var personId = this.dataItem(window.$(e.currentTarget).closest("tr")).PersonId;
         window.$.fancybox.open({
-            src: '@Url.Action("Edit")/'+id,
+            src: '@Url.Action("Edit")?id=' + id + '&personId=' + personId,
             type: 'iframe',
             opts: {
                 afterClose: function () {
@@ -123,7 +124,7 @@
         });
     }
 
-    function InsertPersonPaymentPersonPayment(e) {
+    function InsertPersonPayment(e) {
         e.preventDefault();
         var id = @Context.Request.Query["id"];
         window.$.fancybox.open({

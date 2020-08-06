@@ -1,9 +1,14 @@
-﻿using System.ComponentModel;
-
+﻿using System;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using AutoMapper;
 using HMS.DataLayer.Context;
 using HMS.Services.Contracts.App;
 using HMS.Services.Identity;
+using HMS.ViewModels.App;
+
+using Kendo.Mvc.UI;
+
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +35,53 @@ namespace HMS.Controllers
         public IActionResult Create()
         {
             return View();
+        }
+        [DisplayName(" بازیابی اطلاعات بانکی ")]
+        public JsonResult GetPersonPayment(DataSourceRequest request, int id)
+        {
+            return Json(_personPaymentService.FindPersonPaymentsById(request,id).Result);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [DisplayName("ایجاداطلاعات بانکی")]
+        public async Task<IActionResult> Create(PersonPaymentViewModel personPayment)
+        {
+            if (!ModelState.IsValid) return PartialView("_Create", personPayment);
+            await _personPaymentService.AddNewPersonPayment(personPayment).ConfigureAwait(false);
+            return Content("Success");
+        }
+        [DisplayName("فرم ویرایش اطلاعات بانکی")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null) return NotFound();
+            var payment = await _personPaymentService.FindPeymentByID((int)id).ConfigureAwait(false);
+            if (payment == null) return NotFound();
+            return View(payment);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [DisplayName("ویرایش اطلاعات بانکی")]
+        //[BreadCrumb(Order = 1)]
+        public async Task<IActionResult> Edit(int id, PersonPaymentViewModel person)
+        {
+            if (id != person.Id) return NotFound();
+            if (!ModelState.IsValid) return View(person);
+                try
+                {
+                _personPaymentService.UpdatePersonPayment(person);
+            }
+                catch (Exception ex)
+                {
+                //if (!_personPaymentService.IsPersonExist(person.Id).Result)
+                //{
+                //    return NotFound();
+                //}
+                //else
+                //{
+                    return Content(ex.Message);
+                //}
+            }
+            return Content("Success");
         }
     }
 }

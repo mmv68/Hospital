@@ -162,7 +162,7 @@ namespace HMS.DataLayer.Context
         public virtual DbSet<PersonLocation> PersonLocations { get; set; }
         public virtual DbSet<PersonAdditionalInformation> PersonAdditionalInformations { get; set; }
         public virtual DbSet<Personnel> Personnel { get; set; }
-        public virtual DbSet<PersonPayment> personPayment { get; set; }
+        public virtual DbSet<PersonPayment> PersonPayment { get; set; }
         #endregion
 
 
@@ -208,6 +208,10 @@ namespace HMS.DataLayer.Context
             builder.Entity<BaseInformation>().HasIndex(idx => idx.Title).HasName("IX_BaseInformation");
             builder.Entity<PersonEducation>().HasIndex(idx => idx.UniversityName).HasName("IX_PersonEducation");
             builder.Entity<PersonLocation>().HasIndex(idx => idx.Mobile).HasName("IX_PersonLocation");
+            //builder.Entity<PersonPayment>(build =>
+            //{
+            //    build.HasOne(o => o.Person).WithMany(m => m.PersonPayment).HasForeignKey(f => f.PersonId).OnDelete(DeleteBehavior.Restrict);
+            //});
             builder.Entity<PersonPayment>().HasIndex(idx => idx.AccountNumber).HasName("IX_PersonPeyment");
             // This should be placed here, at the end.
             builder.AddAuditableShadowProperties();

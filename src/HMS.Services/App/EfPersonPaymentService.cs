@@ -3,8 +3,14 @@ using HMS.DataLayer.Context;
 using HMS.Entities.App;
 using HMS.Services.Contracts.App;
 using HMS.ViewModels.App;
+
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
+
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace HMS.Services.App
@@ -32,9 +38,23 @@ namespace HMS.Services.App
             throw new NotImplementedException();
         }
 
+        public async Task<DataSourceResult> FindPersonPaymentsById(DataSourceRequest request,int id)
+        {
+            return _mapper.Map<List<PersonPaymentViewModel>>
+            (await _personPayment.Where(p => p.PersonId == id)
+                .ToListAsync().ConfigureAwait(false)
+            ).ToDataSourceResult(request);
+        }
+
+        public async Task<PersonPaymentViewModel> FindPeymentByID(int id)
+        {
+            return _mapper.Map<PersonPaymentViewModel>(await _personPayment.FindAsync(id).ConfigureAwait(false));
+        }
+
         public void UpdatePersonPayment(PersonPaymentViewModel personPayment)
         {
-            throw new NotImplementedException();
+            _personPayment.Update(_mapper.Map<PersonPayment>(personPayment));
+            _uow.SaveChangesAsync();
         }
     }
 }
