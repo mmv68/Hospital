@@ -6,9 +6,7 @@ using HMS.DataLayer.Context;
 using HMS.Services.Contracts.App;
 using HMS.Services.Identity;
 using HMS.ViewModels.App;
-
 using Kendo.Mvc.UI;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +30,7 @@ namespace HMS.Controllers
         {
             return View();
         }
+        [DisplayName("فرم ایجاد اطلاعات بانکی")]
         public IActionResult Create()
         {
             return View();
@@ -62,7 +61,7 @@ namespace HMS.Controllers
         [ValidateAntiForgeryToken]
         [DisplayName("ویرایش اطلاعات بانکی")]
         //[BreadCrumb(Order = 1)]
-        public async Task<IActionResult> Edit(int id, PersonPaymentViewModel person)
+        public IActionResult Edit(int id, PersonPaymentViewModel person)
         {
             if (id != person.Id) return NotFound();
             if (!ModelState.IsValid) return View(person);
@@ -82,6 +81,22 @@ namespace HMS.Controllers
                 //}
             }
             return Content("Success");
+        }
+        [DisplayName("فرم حذف اطلاعات بانکی")]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null) return NotFound();
+            var person = await _personPaymentService.FindPeymentByID((int)id);
+            if (person == null) return NotFound();
+            return View(person);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        [DisplayName("حذف اطلاعات بانکی")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _personPaymentService.DeletePersonPayment(id);
+            return Content("success");
         }
     }
 }

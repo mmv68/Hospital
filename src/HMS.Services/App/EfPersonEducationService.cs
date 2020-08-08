@@ -35,9 +35,10 @@ namespace HMS.Services.App
 
         }
 
-        public void UpdatePerson(PersonEducationViewModel personEducation)
+        public void UpdatePersonEducation(PersonEducationViewModel personEducation)
         {
-            throw new NotImplementedException();
+            _personEducations.Update(_mapper.Map<PersonEducation>(personEducation));
+            _uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public void DeletePersonEducation(int id)
@@ -47,7 +48,7 @@ namespace HMS.Services.App
 
         public async Task<PersonEducationViewModel> FindPersonEducationById(int id)
         {
-            throw new NotImplementedException();
+          return _mapper.Map <PersonEducationViewModel>(await _personEducations.FindAsync(id).ConfigureAwait(false));
         }
 
         public async Task<PersonEducationViewModel> FindFullPersonEducationById(int id)
@@ -64,9 +65,9 @@ namespace HMS.Services.App
         {
             return _mapper.Map<List<PersonEducationViewModel>>
             (await _personEducations.Where(p => p.PersonId == personId)
-                .Include(p=>p.CertificateType)
-                .Include(p=>p.Department)
-                .Include(p=>p.FieldStudy)
+                .Include(p => p.CertificateType)
+                .Include(p => p.Department)
+                .Include(p => p.FieldStudy)
                 .ToListAsync().ConfigureAwait(false)
             ).ToDataSourceResult(request);
         }

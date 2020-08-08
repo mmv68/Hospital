@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -13,7 +12,6 @@ using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Authorization;
 using HMS.Services.Contracts.App;
 using HMS.ViewModels.App;
-using Kendo.Mvc.Extensions;
 
 namespace HMS.Controllers
 {
@@ -31,50 +29,23 @@ namespace HMS.Controllers
             _personEducationService = personEducationService;
             _mapper = mapper;
         }
-
+        [DisplayName("لیست اطلاعات تحصیلی")]
         public IActionResult Index(int id,string title)
         {
             return View();
         }
-
+        [DisplayName("بازیابی اطلاعات تحصیلی")]
         public JsonResult GetPersonEducation(DataSourceRequest request,int id)
         {
-            return Json((_mapper.Map<List<PersonEducationViewModel>>
-            (_context.PersonEducations.Where(x => x.PersonId == id)
-                .Include(p => p.CertificateType)
-                .Include(p => p.Department)
-                .Include(p => p.FieldStudy)
-                .ToList())).ToDataSourceResult(request));
-            //return Json(_personEducationService.GetPersonEducations(request, id));
+            return Json(_personEducationService.GetPersonEducations(request, id).Result);
         }
 
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var personEducation = await _context.PersonEducations
-                .Include(p => p.CertificateType)
-                .Include(p => p.Department)
-                .Include(p => p.FieldStudy)
-                .Include(p => p.Person)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (personEducation == null)
-            {
-                return NotFound();
-            }
-
-            return View(personEducation);
-        }
-
-        // GET: PersonEducation/Create
+        [DisplayName("فرم ایجاد اطلاعات تحصیلی")]
         public IActionResult Create(int personId)
         {
             return View();
         }
-        
+        [DisplayName("ایجاد اطلاعات تحصیلی")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PersonEducationViewModel personEducation)
@@ -84,24 +55,13 @@ namespace HMS.Controllers
             return Content("Success");
         }
 
-        // GET: PersonEducation/Edit/5
+        [DisplayName("فرم ویرایش اطلاعات تحصیلی")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var personEducation = await _context.PersonEducations.FindAsync(id);
-            if (personEducation == null)
-            {
-                return NotFound();
-            }
-            ViewData["CertificateTypeId"] = new SelectList(_context.BaseInformations, "Id", "Title", personEducation.CertificateTypeId);
-            ViewData["DepartmentId"] = new SelectList(_context.BaseInformations, "Id", "Title", personEducation.DepartmentId);
-            ViewData["FieldStudyId"] = new SelectList(_context.BaseInformations, "Id", "Title", personEducation.FieldStudyId);
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "FatherName", personEducation.PersonId);
-            return View();
+            if (id == null) return NotFound();
+            var personEducation = await _personEducationService.FindPersonEducationById((int)id);
+            if (personEducation == null) return NotFound();
+            return View(personEducation);
         }
 
         // POST: PersonEducation/Edit/5
@@ -109,19 +69,13 @@ namespace HMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PersonId,CertificateTypeId,DepartmentId,FieldStudyId,UniversityType,UniversityName,GraduatedDate,Average,Applied")] PersonEducation personEducation)
+        public async Task<IActionResult> Edit(int id,PersonEducationViewModel personEducation)
         {
-            if (id != personEducation.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
+            if (id != personEducation.Id) return NotFound();
+            if (!ModelState.IsValid) return View(personEducation);
                 try
                 {
-                    _context.Update(personEducation);
-                    await _context.SaveChangesAsync();
+                    _personEducationService.UpdatePersonEducation(personEducation);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -134,13 +88,8 @@ namespace HMS.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CertificateTypeId"] = new SelectList(_context.BaseInformations, "Id", "Title", personEducation.CertificateTypeId);
-            ViewData["DepartmentId"] = new SelectList(_context.BaseInformations, "Id", "Title", personEducation.DepartmentId);
-            ViewData["FieldStudyId"] = new SelectList(_context.BaseInformations, "Id", "Title", personEducation.FieldStudyId);
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "FatherName", personEducation.PersonId);
-            return View();
+                //return RedirectToAction(nameof(Index));
+            return Content("Success");
         }
 
         // GET: PersonEducation/Delete/5

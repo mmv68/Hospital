@@ -34,6 +34,7 @@ namespace HMS.ViewModels.App
         [Display(Name = "نام دانشگاه")]
         public string UniversityName { get; set; }
         [Display(Name = "تاریخ فارغ التحصیلی")]
+        [DataType(DataType.Date)]
         public DateTime? GraduatedDate { get; set; }
         [Range(0,20.00,ErrorMessage = "لازم به یادآوری می باشد معدل بین 0 تا 20 می باشد!")]
         [Display(Name = "معدل")]

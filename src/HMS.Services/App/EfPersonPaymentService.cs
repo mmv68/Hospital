@@ -35,7 +35,8 @@ namespace HMS.Services.App
 
         public void DeletePersonPayment(int id)
         {
-            throw new NotImplementedException();
+            _personPayment.Remove(_personPayment.FindAsync(id).Result);
+            _uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task<DataSourceResult> FindPersonPaymentsById(DataSourceRequest request,int id)

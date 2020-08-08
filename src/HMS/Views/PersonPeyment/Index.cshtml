@@ -27,19 +27,19 @@
             .Name("PersonPaymentGrid")
             .Columns(columns =>
             {
-                columns.Bound(e => e.CardNumber).Width(180).Filterable(x => x.Extra(false));
-                columns.Bound(e => e.AccountNumber).Width(150).Filterable(x => x.Extra(false));
-                columns.Bound(e => e.ShabaNumber).Width(180).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.AccountNumber).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.ShabaNumber).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.CardNumber).Filterable(x => x.Extra(false));
                 columns.Command(command =>
-                                    {
-                                        command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit").Click("EditPersonPayment");
-                                        command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close").Click("DeletePersonPayment");
-                                    });
+                {
+                    command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit").Click("EditPersonPayment");
+                    command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close").Click("DeletePersonPayment");
+                });
             })
             .ToolBar(toolbar =>
-                {
-                    toolbar.Custom().Text("ایجاد").Name("InsertPersonPayment");
-                })
+            {
+                toolbar.Custom().Text("ایجاد").Name("InsertPersonPayment");
+            })
             .Selectable(selectable =>
             {
                 selectable.Mode(GridSelectionMode.Multiple);

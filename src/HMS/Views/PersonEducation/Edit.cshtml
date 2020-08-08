@@ -128,7 +128,8 @@
                 <div class="col-xs-4">
                     <div class="form-group">
                         <label asp-for="GraduatedDate" class="control-label"></label>
-                        <kendo-datepicker name="GraduatedDate" format="yyyy/MM/dd" style="width: 100%; direction: rtl" />
+                        @*<kendo-datepicker name="GraduatedDate" format="yyyy/MM/dd" style="width: 100%; direction: rtl" />*@
+                        <input asp-for="GraduatedDate" class="form-control" style="width:100%" />
                         <span asp-validation-for="GraduatedDate" class="text-danger"></span>
                     </div>
                 </div>
@@ -145,7 +146,8 @@
                 <div class="col-xs-4">
                     <div class="form-group">
                         <label asp-for="Applied" class="control-label"></label>
-                        <input name="Applied" id="Applied" value="true" type="checkbox" class="checkbox" />
+                        <input name="Applied" id="Applied" value="@Model.Applied.Value" type="checkbox"  class="checkbox" />
+                        @*<input asp-for="Applied" type="checkbox" class="form-control" />*@
                         <span asp-validation-for="Applied" class="text-danger"></span>
                     </div>
                 </div>
@@ -159,6 +161,7 @@
 </div>
 
 <script>
+    kendo.syncReady(function () { jQuery("#GraduatedDate").kendoDatePicker({ "format": "yyyy/MM/dd" }); });
     function getDepartmentId() {
         return {
             id: (DepartmentId).value
