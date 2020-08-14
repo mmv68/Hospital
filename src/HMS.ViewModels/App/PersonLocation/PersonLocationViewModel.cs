@@ -34,7 +34,7 @@ namespace HMS.ViewModels.App
         public string Phone { get; set; }
         [Display(Name = "تلفن همراه")]
         [StringLength(11, ErrorMessage = "شماره همراه باید حداکثر 11 کاراکتر باشد")]
-        [RegularExpression("09(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}", ErrorMessage = "لطفا شماره همراه را به شکل صحیح وارد کنید")]
+        //[RegularExpression("09(1[0-9]|3[1-9]|2[1-9])-?[0-9]{3}-?[0-9]{4}", ErrorMessage = "لطفا شماره همراه را به شکل صحیح وارد کنید")]
         public string Mobile { get; set; }
         [Display(Name = "رایانامه شخصی")]
         [EmailAddress(ErrorMessage = "لطفا {0} معتبر را وارد نمایید")]

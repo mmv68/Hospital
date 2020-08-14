@@ -69,7 +69,7 @@ namespace HMS.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,PersonEducationViewModel personEducation)
+        public IActionResult Edit(int id,PersonEducationViewModel personEducation)
         {
             if (id != personEducation.Id) return NotFound();
             if (!ModelState.IsValid) return View(personEducation);
