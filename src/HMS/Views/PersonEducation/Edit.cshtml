@@ -146,9 +146,10 @@
                 <div class="col-xs-4">
                     <div class="form-group">
                         <label asp-for="Applied" class="control-label"></label>
-                        <input name="Applied" id="Applied" value="@Model.Applied.Value" type="checkbox"  class="checkbox" />
-                        @*<input asp-for="Applied" type="checkbox" class="form-control" />*@
-                        <span asp-validation-for="Applied" class="text-danger"></span>
+                        <input name="Applied" id="Applied" value="true" @((bool)Model.Applied ? "checked=\"checked\"" : "")  type="checkbox" class="checkbox" />
+                        <input name="Applied" value="false" type="hidden" />
+                        @*<input asp-for="Applied" type="checkbox" value=""  class="form-control" />
+        <span asp-validation-for="Applied" class="text-danger"></span>*@
                     </div>
                 </div>
             </div>

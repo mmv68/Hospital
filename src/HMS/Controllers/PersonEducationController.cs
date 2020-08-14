@@ -64,9 +64,7 @@ namespace HMS.Controllers
             return View(personEducation);
         }
 
-        // POST: PersonEducation/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [DisplayName("ویرایش اطلاعات تحصیلی")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id,PersonEducationViewModel personEducation)

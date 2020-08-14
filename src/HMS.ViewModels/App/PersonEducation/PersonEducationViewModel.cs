@@ -40,6 +40,6 @@ namespace HMS.ViewModels.App
         [Display(Name = "معدل")]
         public decimal? Average { get; set; }
         [Display(Name = "مدرک اعمال شده")]
-        public bool? Applied { get; set; }
+        public bool? Applied { get; set; } = false;
     }
 }
