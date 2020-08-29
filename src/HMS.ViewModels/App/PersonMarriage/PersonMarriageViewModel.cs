@@ -15,6 +15,7 @@ namespace HMS.ViewModels.App
         [Display(Name = "نوع واقعه")]
         public MarriageDivorce MarriageDivorce { get; set; }
         [Display(Name = "تاریخ وقوع")]
+        [DataType(DataType.Date)]
         public DateTime? IncidentDate { get; set; }
         [Display(Name = "شماره دفترخانه")]
         public string OfficeNumber { get; set; }

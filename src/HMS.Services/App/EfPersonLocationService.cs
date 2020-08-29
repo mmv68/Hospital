@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using HMS.DataLayer.Context;
 using HMS.Entities.App;
 using HMS.Services.Contracts.App;
 using HMS.ViewModels.App;
-
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.EntityFrameworkCore;
@@ -40,19 +38,9 @@ namespace HMS.Services.App
             _uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        public Task<PersonLocationViewModel> FindFullPersonLocationById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<PersonLocationViewModel> FindPersonLocationById(int id)
         {
             return _mapper.Map<PersonLocationViewModel>(await _personLocations.FindAsync(id).ConfigureAwait(false));
-        }
-
-        public Task<IList<PersonLocationViewModel>> GetAllPersonLocations()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<DataSourceResult> GetPersonLocations(DataSourceRequest request, int personId)

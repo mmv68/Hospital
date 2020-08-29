@@ -34,8 +34,8 @@
                         columns.Bound(e => e.RegisterNumber).Width(180).Filterable(x => x.Extra(false));
                         columns.Command(command =>
                                             {
-                                                command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit");
-                                                command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close");
+                                                command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit").Click("EditPersonMarriage");
+                                                command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close").Click("DeletePersonMarriage");
                                             });
                     })
                     .ToolBar(toolbar =>
@@ -100,8 +100,9 @@
     function EditPersonMarriage(e) {
         e.preventDefault();
         var id = this.dataItem(window.$(e.currentTarget).closest("tr")).Id;
+        var personId = this.dataItem(window.$(e.currentTarget).closest("tr")).PersonId;
         window.$.fancybox.open({
-            src: '@Url.Action("Edit")/'+id,
+            src: '@Url.Action("Edit")/?id=' + id + '&personId=' + personId,
             type: 'iframe',
             opts: {
                 afterClose: function () {

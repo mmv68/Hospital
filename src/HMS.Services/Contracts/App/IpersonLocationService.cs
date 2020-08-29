@@ -13,8 +13,6 @@ namespace HMS.Services.Contracts.App
         void UpdatePersonLocation(PersonLocationViewModel personLocation);
         void DeletePersonLocation(int id);
         Task<PersonLocationViewModel> FindPersonLocationById(int id);
-        Task<PersonLocationViewModel> FindFullPersonLocationById(int id);
-        Task<IList<PersonLocationViewModel>> GetAllPersonLocations();
         Task<DataSourceResult> GetPersonLocations(DataSourceRequest request, int personId);
     }
 }

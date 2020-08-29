@@ -21,14 +21,10 @@ namespace HMS.Controllers
     [DisplayName("مدیریت و نگهداری محل سکونت")]
     public class PersonLocationController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IPersonLocationService _personLocationService;
-        private readonly IMapper _mapper;
-        public PersonLocationController(ApplicationDbContext context, IPersonLocationService personLocationService, IMapper mapper)
+        public PersonLocationController( IPersonLocationService personLocationService)
         {
-            _context = context;
             _personLocationService = personLocationService;
-            _mapper = mapper;
         }
 
         [DisplayName("لیست محل های سکونت")]
@@ -40,28 +36,6 @@ namespace HMS.Controllers
         public JsonResult GetPersonLocation(DataSourceRequest request, int id)
         {
             return Json(_personLocationService.GetPersonLocations(request, id).Result);
-        }
-        // GET: PersonLocation/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var personLocation = await _context.PersonLocations
-                .Include(p => p.City)
-                .Include(p => p.Person)
-                .Include(p => p.Proviance)
-                .Include(p => p.Section)
-                .Include(p => p.Township)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (personLocation == null)
-            {
-                return NotFound();
-            }
-
-            return View(personLocation);
         }
 
         [DisplayName("فرم ایجاد محل های سکونت")]
@@ -85,7 +59,6 @@ namespace HMS.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null) return NotFound();
-
             var personLocation = await _personLocationService.FindPersonLocationById((int)id);
             if (personLocation == null) return NotFound();
             return View(personLocation);
