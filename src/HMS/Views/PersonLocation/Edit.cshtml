@@ -1,76 +1,201 @@
-﻿@model HMS.Entities.App.PersonLocation
-
+﻿@model PersonLocationViewModel
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "ویرایش محل سکونت";
+    Layout = "_EditLayout";
 }
+<script type="text/javascript">
+    function OnSuccess(response) {
+        if (response === "Success") {
+            swal({
+                position: 'center',
+                type: 'success',
+                title: 'اطلاعات با موفقیت ویرایش شد',
+                showConfirmButton: false,
+                target: document.getElementById('rtl-container'),
+                timer: 2500
+            });
+            setTimeout("parent.jQuery.fancybox.close()", 2000);
+        } else {
+            swal({
+                position: 'center',
+                type: 'error',
+                title: 'لطفاً خطاهای اتفاق افتاده را بررسی نمایید',
+                showConfirmButton: false,
+                target: document.getElementById('rtl-container'),
+                timer: 2500
+            });
+        }
+    }
+</script>
 
-<h1>Edit</h1>
-
-<h4>PersonLocation</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
+<div class="k-rtl">
+    <div class="col-md-12">
+        <form asp-action="Edit" data-ajax="true" data-ajax-method="POST" data-ajax-success="OnSuccess">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="PersonId" class="control-label"></label>
-                <select asp-for="PersonId" class="form-control" asp-items="ViewBag.PersonId"></select>
-                <span asp-validation-for="PersonId" class="text-danger"></span>
+            <input asp-for="PersonId" type="hidden" value="@Context.Request.Query["personId"]" />
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label asp-for="ProvianceId" class="control-label"></label>
+                        <kendo-dropdownlist for="ProvianceId"
+                                            no-data-template="داده ای یافت نگردید"
+                                            datatextfield="Title" datavaluefield="Id"
+                                            filter="FilterType.Contains" min-length="1"
+                                            option-label="انتخاب استان"
+                                            class="form-control" style="width:100%">
+                            <datasource type="DataSourceTagHelperType.Custom"
+                                        page-size="32">
+                                <transport>
+                                    <read url="@Url.Action("GetBaseInformation","BaseInformation",new {id=8})" />
+                                </transport>
+                            </datasource>
+                            <popup-animation>
+                                <open duration="200" />
+                                <close duration="300" />
+                            </popup-animation>
+                        </kendo-dropdownlist>
+                        <span asp-validation-for="ProvianceId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label asp-for="TownshipId" class="control-label"></label>
+                        <kendo-dropdownlist for="TownshipId"
+                                            no-data-template="داده ای یافت نگردید"
+                                            auto-bind="false"
+                                            enable="false" cascade-from="ProvianceId"
+                                            datatextfield="Title" datavaluefield="Id"
+                                            filter="FilterType.Contains" min-length="1"
+                                            option-label="انتخاب شهرستان"
+                                            class="form-control" style="width:100%">
+                            <datasource type="DataSourceTagHelperType.Custom"
+                                        page-size="32" server-filtering="true">
+                                <transport>
+                                    <read url="@Url.Action("GetBaseInformation", "BaseInformation")" data="TownshipId" />
+                                </transport>
+                            </datasource>
+                            <popup-animation>
+                                <open duration="200" />
+                                <close duration="300" />
+                            </popup-animation>
+                        </kendo-dropdownlist>
+                        <span asp-validation-for="TownshipId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label asp-for="SectionId" class="control-label"></label>
+                        <kendo-dropdownlist for="SectionId"
+                                            no-data-template="داده ای یافت نگردید"
+                                            auto-bind="false"
+                                            enable="false" cascade-from="TownshipId"
+                                            datatextfield="Title" datavaluefield="Id"
+                                            filter="FilterType.Contains" min-length="1"
+                                            option-label="انتخاب بخش"
+                                            class="form-control" style="width:100%">
+                            <datasource type="DataSourceTagHelperType.Custom"
+                                        page-size="32" server-filtering="true">
+                                <transport>
+                                    <read url="@Url.Action("GetBaseInformation", "BaseInformation")" data="SectionId" />
+                                </transport>
+                            </datasource>
+                            <popup-animation>
+                                <open duration="200" />
+                                <close duration="300" />
+                            </popup-animation>
+                        </kendo-dropdownlist>
+                        <span asp-validation-for="SectionId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label asp-for="CityId" class="control-label"></label>
+                        <kendo-dropdownlist for="CityId"
+                                            no-data-template="داده ای یافت نگردید"
+                                            auto-bind="false"
+                                            enable="false" cascade-from="SectionId"
+                                            datatextfield="Title" datavaluefield="Id"
+                                            filter="FilterType.Contains" min-length="1"
+                                            option-label="انتخاب شهر"
+                                            class="form-control" style="width:100%">
+                            <datasource type="DataSourceTagHelperType.Custom"
+                                        page-size="32" server-filtering="true">
+                                <transport>
+                                    <read url="@Url.Action("GetBaseInformation", "BaseInformation")" data="CityId" />
+                                </transport>
+                            </datasource>
+                            <popup-animation>
+                                <open duration="200" />
+                                <close duration="300" />
+                            </popup-animation>
+                        </kendo-dropdownlist>
+                        <span asp-validation-for="CityId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label asp-for="Addres" class="control-label"></label>
+                        <input asp-for="Addres" class="form-control" />
+                        <span asp-validation-for="Addres" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label asp-for="Phone" class="control-label"></label>
+                        <input asp-for="Phone" class="form-control" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label asp-for="Mobile" class="control-label"></label>
+                        <input asp-for="Mobile" class="form-control" />
+                        <span asp-validation-for="Mobile" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label asp-for="PersonalEmail" class="control-label"></label>
+                        <input asp-for="PersonalEmail" class="form-control" />
+                        <span asp-validation-for="PersonalEmail" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-xs-3">
+                    <div class="form-group">
+                        <label asp-for="OrganizationEmail" class="control-label"></label>
+                        <input asp-for="OrganizationEmail" class="form-control" />
+                        <span asp-validation-for="OrganizationEmail" class="text-danger"></span>
+                    </div>
+                </div>
+
             </div>
             <div class="form-group">
-                <label asp-for="ProvianceId" class="control-label"></label>
-                <select asp-for="ProvianceId" class="form-control" asp-items="ViewBag.ProvianceId"></select>
-                <span asp-validation-for="ProvianceId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TownshipId" class="control-label"></label>
-                <select asp-for="TownshipId" class="form-control" asp-items="ViewBag.TownshipId"></select>
-                <span asp-validation-for="TownshipId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SectionId" class="control-label"></label>
-                <select asp-for="SectionId" class="form-control" asp-items="ViewBag.SectionId"></select>
-                <span asp-validation-for="SectionId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CityId" class="control-label"></label>
-                <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId"></select>
-                <span asp-validation-for="CityId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Addres" class="control-label"></label>
-                <textarea asp-for="Addres" class="form-control"></textarea>
-                <span asp-validation-for="Addres" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Mobile" class="control-label"></label>
-                <input asp-for="Mobile" class="form-control" />
-                <span asp-validation-for="Mobile" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PersonalEmail" class="control-label"></label>
-                <input asp-for="PersonalEmail" class="form-control" />
-                <span asp-validation-for="PersonalEmail" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrganizationEmail" class="control-label"></label>
-                <input asp-for="OrganizationEmail" class="form-control" />
-                <span asp-validation-for="OrganizationEmail" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="ثبت" class="btn btn-primary" />
+                <a class="btn btn-danger" href="javascript:parent.jQuery.fancybox.close();" style="cursor: pointer; text-decoration: none; ">بستن</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+<script type="text/javascript">
+    function TownshipId() {
+        return {
+            id: (window.ProvianceId).value
+        };
+    }
+    function SectionId() {
+        return {
+            id: (TownshipId).value
+        };
+    }
+    function CityId() {
+        return {
+            id: (SectionId).value
+        };
+    }
+</script>

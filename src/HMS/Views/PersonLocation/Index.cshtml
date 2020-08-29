@@ -27,16 +27,16 @@
             .Name("PersonLocationGrid")
             .Columns(columns =>
             {
-                columns.Bound(e => e.ProvianceName).Width(180).Filterable(x => x.Extra(false));
-                columns.Bound(e => e.TownshipName).Width(150).Filterable(x => x.Extra(false));
-                columns.Bound(e => e.SectionName).Width(180).Filterable(x => x.Extra(false));
-                columns.Bound(e => e.CityName).Width(180).Filterable(x => x.Extra(false));
-                columns.Bound(e => e.Mobile).Width(130).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.ProvianceName).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.TownshipName).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.Mobile).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.Phone).Filterable(x => x.Extra(false));
+                columns.Bound(e => e.OrganizationEmail).Filterable(x => x.Extra(false));
                 columns.Command(command =>
                                     {
-                                        command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit");
-                                        command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close");
-                                    });
+                                        command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit").Click("EditPersonLocation");
+                                        command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close").Click("DeletePersonLocation");
+                                    }).Width(230);
             })
             .ToolBar(toolbar =>
                 {
@@ -100,8 +100,9 @@
     function EditPersonLocation(e) {
         e.preventDefault();
         var id = this.dataItem(window.$(e.currentTarget).closest("tr")).Id;
+        var personId = this.dataItem(window.$(e.currentTarget).closest("tr")).PersonId;
         window.$.fancybox.open({
-            src: '@Url.Action("Edit")/'+id,
+            src: '@Url.Action("Edit")/?id=' + id + '&personId=' + personId,
             type: 'iframe',
             opts: {
                 afterClose: function () {

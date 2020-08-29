@@ -1,12 +1,7 @@
 ﻿using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using HMS.DataLayer.Context;
-using HMS.Entities.App;
 using HMS.Services.Identity;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Authorization;
@@ -19,15 +14,11 @@ namespace HMS.Controllers
     [DisplayName("مدیریت و نگهداری تحصیلات")]
     public class PersonEducationController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IPersonEducationService _personEducationService;
-        private readonly IMapper _mapper;
       
-        public PersonEducationController(ApplicationDbContext context, IPersonEducationService personEducationService, IUnitOfWork uow, IMapper mapper)
+        public PersonEducationController( IPersonEducationService personEducationService)
         {
-            _context = context;
             _personEducationService = personEducationService;
-            _mapper = mapper;
         }
         [DisplayName("لیست اطلاعات تحصیلی")]
         public IActionResult Index(int id,string title)
@@ -77,55 +68,27 @@ namespace HMS.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonEducationExists(personEducation.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+
                 }
-                //return RedirectToAction(nameof(Index));
             return Content("Success");
         }
 
-        // GET: PersonEducation/Delete/5
+        [DisplayName("فرم حذف اطلاعات تحصیلی")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var personEducation = await _context.PersonEducations
-                .Include(p => p.CertificateType)
-                .Include(p => p.Department)
-                .Include(p => p.FieldStudy)
-                .Include(p => p.Person)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (personEducation == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
+            var personEducation = await _personEducationService.FindPersonEducationById((int)id);
+            if (personEducation == null) return NotFound();
             return View(personEducation);
         }
 
-        // POST: PersonEducation/Delete/5
+        [DisplayName("حذف اطلاعات تحصیلی")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var personEducation = await _context.PersonEducations.FindAsync(id);
-            _context.PersonEducations.Remove(personEducation);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool PersonEducationExists(int id)
-        {
-            return _context.PersonEducations.Any(e => e.Id == id);
+            _personEducationService.DeletePersonEducation(id);
+            return Content("success");
         }
     }
 }

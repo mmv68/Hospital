@@ -36,16 +36,10 @@ namespace HMS.Controllers
         {
             return View();
         }
+        [DisplayName("بازیابی محل های سکونت")]
         public JsonResult GetPersonLocation(DataSourceRequest request, int id)
         {
-            return Json((_mapper.Map<List<PersonLocationViewModel>>
-            (_context.PersonLocations.Where(x => x.PersonId == id)
-                .Include(p => p.Proviance)
-                .Include(p => p.Township)
-                .Include(p => p.Section)
-                .Include(p => p.City)
-                .ToList())).ToDataSourceResult(request));
-            //return Json(_personEducationService.GetPersonEducations(request, id));
+            return Json(_personLocationService.GetPersonLocations(request, id).Result);
         }
         // GET: PersonLocation/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -70,7 +64,7 @@ namespace HMS.Controllers
             return View(personLocation);
         }
 
-        // GET: PersonLocation/Create
+        [DisplayName("فرم ایجاد محل های سکونت")]
         public IActionResult Create()
         {
             return View();
@@ -78,6 +72,7 @@ namespace HMS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [DisplayName("ایجاد محل های سکونت")]
         public async Task<IActionResult> Create(PersonLocationViewModel personLocation)
         {
             if (!ModelState.IsValid) return PartialView("_Create", personLocation);
@@ -86,104 +81,51 @@ namespace HMS.Controllers
 
         }
 
-        // GET: PersonLocation/Edit/5
+        [DisplayName("فرم ویرایش محل های سکونت")]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var personLocation = await _context.PersonLocations.FindAsync(id);
-            if (personLocation == null)
-            {
-                return NotFound();
-            }
-            ViewData["CityId"] = new SelectList(_context.BaseInformations, "Id", "Title", personLocation.CityId);
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "FatherName", personLocation.PersonId);
-            ViewData["ProvianceId"] = new SelectList(_context.BaseInformations, "Id", "Title", personLocation.ProvianceId);
-            ViewData["SectionId"] = new SelectList(_context.BaseInformations, "Id", "Title", personLocation.SectionId);
-            ViewData["TownshipId"] = new SelectList(_context.BaseInformations, "Id", "Title", personLocation.TownshipId);
+            var personLocation = await _personLocationService.FindPersonLocationById((int)id);
+            if (personLocation == null) return NotFound();
             return View(personLocation);
         }
 
-        // POST: PersonLocation/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [DisplayName("ویرایش محل های سکونت")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PersonId,ProvianceId,TownshipId,SectionId,CityId,Addres,Phone,Mobile,PersonalEmail,OrganizationEmail")] PersonLocation personLocation)
+        public IActionResult Edit(int id, PersonLocationViewModel personLocation)
         {
-            if (id != personLocation.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
+            if (id != personLocation.Id) return NotFound();
+            if (!ModelState.IsValid) return View(personLocation);
                 try
                 {
-                    _context.Update(personLocation);
-                    await _context.SaveChangesAsync();
+                _personLocationService.UpdatePersonLocation(personLocation);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonLocationExists(personLocation.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CityId"] = new SelectList(_context.BaseInformations, "Id", "Title", personLocation.CityId);
-            ViewData["PersonId"] = new SelectList(_context.Persons, "Id", "FatherName", personLocation.PersonId);
-            ViewData["ProvianceId"] = new SelectList(_context.BaseInformations, "Id", "Title", personLocation.ProvianceId);
-            ViewData["SectionId"] = new SelectList(_context.BaseInformations, "Id", "Title", personLocation.SectionId);
-            ViewData["TownshipId"] = new SelectList(_context.BaseInformations, "Id", "Title", personLocation.TownshipId);
-            return View(personLocation);
+            return Content("Success");
         }
 
-        // GET: PersonLocation/Delete/5
+        [DisplayName("فرم حذف محل های سکونت")]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var personLocation = await _context.PersonLocations
-                .Include(p => p.City)
-                .Include(p => p.Person)
-                .Include(p => p.Proviance)
-                .Include(p => p.Section)
-                .Include(p => p.Township)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (personLocation == null)
-            {
-                return NotFound();
-            }
-
+            var personLocation = await _personLocationService.FindPersonLocationById((int)id);
+            if (personLocation == null) return NotFound();
             return View(personLocation);
         }
 
-        // POST: PersonLocation/Delete/5
+        [DisplayName("حذف محل های سکونت")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var personLocation = await _context.PersonLocations.FindAsync(id);
-            _context.PersonLocations.Remove(personLocation);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool PersonLocationExists(int id)
-        {
-            return _context.PersonLocations.Any(e => e.Id == id);
+            _personLocationService.DeletePersonLocation(id);
+            return Content("success");
         }
     }
 }

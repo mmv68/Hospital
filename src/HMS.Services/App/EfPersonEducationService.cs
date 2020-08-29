@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using HMS.DataLayer.Context;
@@ -10,7 +9,6 @@ using HMS.Services.Contracts.App;
 using HMS.ViewModels.App;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Services.App
@@ -43,22 +41,13 @@ namespace HMS.Services.App
 
         public void DeletePersonEducation(int id)
         {
-            throw new NotImplementedException();
+            _personEducations.Remove(_personEducations.Find(id));
+            _uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public async Task<PersonEducationViewModel> FindPersonEducationById(int id)
         {
           return _mapper.Map <PersonEducationViewModel>(await _personEducations.FindAsync(id).ConfigureAwait(false));
-        }
-
-        public async Task<PersonEducationViewModel> FindFullPersonEducationById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IList<PersonEducationViewModel>> GetAllPersonEducations()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<DataSourceResult> GetPersonEducations(DataSourceRequest request,int personId)

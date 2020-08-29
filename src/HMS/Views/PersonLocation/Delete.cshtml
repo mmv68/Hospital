@@ -1,81 +1,75 @@
-﻿@model HMS.Entities.App.PersonLocation
-
+﻿@model PersonLocationViewModel
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "حذف اطلاعات محل سکونت";
+    Layout = "_EditLayout";
 }
-
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
+<script type="text/javascript">
+    function OnSuccess(response) {
+        if (response == "success") {
+            swal({
+                position: 'center',
+                type: 'error',
+                title: 'اطلاعات با موفقیت حذف شد',
+                showConfirmButton: false,
+                target: document.getElementById('rtl-container'),
+                timer: 2500
+            })
+            setTimeout("parent.jQuery.fancybox.close()", 2000);
+        } else {
+            swal({
+                position: 'center',
+                type: 'error',
+                title: 'لطفاً خطاهای تفاق افتاده را بررسی نمایید',
+                showConfirmButton: false,
+                target: document.getElementById('rtl-container'),
+                timer: 2500
+            })
+        }
+    }
+</script>
+<h3>آیا با حذف اطلاعات زیر به صورت کامل از سیستم موافقید؟</h3>
 <div>
-    <h4>PersonLocation</h4>
+    <h4>اطلاعات محل سکونت</h4>
+    <hr />
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Addres)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Addres)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Phone)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Phone)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Mobile)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Mobile)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.PersonalEmail)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PersonalEmail)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.OrganizationEmail)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.OrganizationEmail)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Person)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Person.FatherName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Proviance)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Proviance.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Township)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Township.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Section)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Section.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.City.Title)
-        </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+
+    <div style="float:right;">
+        <form asp-action="Delete" data-ajax="true" data-ajax-method="POST" data-ajax-success="OnSuccess">
+            <input type="hidden" asp-for="Id" />
+            <input type="submit" value="حذف" class="btn btn-primary" /> |
+            <a class="btn btn-danger" href="javascript:parent.jQuery.fancybox.close();" style="cursor: pointer; text-decoration: none; ">بستن</a>
+        </form>
+    </div>
 </div>

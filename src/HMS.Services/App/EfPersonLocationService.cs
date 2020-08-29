@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -7,6 +8,8 @@ using HMS.DataLayer.Context;
 using HMS.Entities.App;
 using HMS.Services.Contracts.App;
 using HMS.ViewModels.App;
+
+using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.EntityFrameworkCore;
 
@@ -33,7 +36,8 @@ namespace HMS.Services.App
 
         public void DeletePersonLocation(int id)
         {
-            throw new NotImplementedException();
+            _personLocations.Remove(_personLocations.Find(id));
+            _uow.SaveChangesAsync().ConfigureAwait(false);
         }
 
         public Task<PersonLocationViewModel> FindFullPersonLocationById(int id)
@@ -41,9 +45,9 @@ namespace HMS.Services.App
             throw new NotImplementedException();
         }
 
-        public Task<PersonLocationViewModel> FindPersonLocationById(int id)
+        public async Task<PersonLocationViewModel> FindPersonLocationById(int id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<PersonLocationViewModel>(await _personLocations.FindAsync(id).ConfigureAwait(false));
         }
 
         public Task<IList<PersonLocationViewModel>> GetAllPersonLocations()
@@ -51,14 +55,22 @@ namespace HMS.Services.App
             throw new NotImplementedException();
         }
 
-        public Task<DataSourceResult> GetPersonLocations(DataSourceRequest request, int personId)
+        public async Task<DataSourceResult> GetPersonLocations(DataSourceRequest request, int personId)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<List<PersonLocationViewModel>>
+                (await _personLocations.Where(p => p.PersonId == personId)
+                .Include(p => p.Proviance)
+                .Include(p => p.Township)
+                .Include(p=>p.Section)
+                .Include(p=>p.City)
+                .ToListAsync().ConfigureAwait(false)
+                ).ToDataSourceResult(request);
         }
 
         public void UpdatePersonLocation(PersonLocationViewModel personLocation)
         {
-            throw new NotImplementedException();
+            _personLocations.Update(_mapper.Map<PersonLocation>(personLocation));
+            _uow.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 }

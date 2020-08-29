@@ -37,7 +37,7 @@
         columns.Command(command =>
                             {
                             command.Custom("Edit").Text("ویرایش").IconClass("fa blue fa-edit").Click("EditPersonEducation");
-                            command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close");
+                            command.Custom("Delete").Text("حذف").IconClass("fa red fa-window-close").Click("DeletePersonEducation");
                             }).Width(250);
     })
     .ToolBar(toolbar =>

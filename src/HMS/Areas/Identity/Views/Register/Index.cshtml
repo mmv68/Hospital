@@ -50,6 +50,36 @@
                 </div>
             </div>
             <div class="form-group">
+                <label asp-for="Location" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <div class="k-rtl k-content">
+                        @*<kendo-dropdowntree name="Location" datatextfield="title"
+                            datavaluefield="code">
+            <hierarchical-datasource>
+                <transport>
+                    <read url="@Url.Action("GetStructureTree","Structure",new { area = "Identity"})" />
+                </transport>
+                <schema type="Json">
+                    <hierarchical-model id="id" has-children="hasChildren"></hierarchical-model>
+                </schema>
+            </hierarchical-datasource>
+        </kendo-dropdowntree>*@
+                        <kendo-dropdowntree name="Location" datatextfield="Title" datavaluefield="Id"
+                                            class="form-control col-md-4" lang="fa-IR" >
+                            <hierarchical-datasource>
+                                <transport>
+                                    <read url="@Url.Action("GetStructureTree","Structure")" />
+                                </transport>
+                                <schema type="json">
+                                    <hierarchical-model id="Id" has-children="hasChildren"></hierarchical-model>
+                                </schema>
+                            </hierarchical-datasource>
+                        </kendo-dropdowntree>
+                    </div>
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col col-md-2 control-label">
                     کد امنیتی
                 </label>
@@ -66,7 +96,6 @@
                                  asp-validation-message-class="text-danger" />
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <button type="submit" class="btn btn-info col-md-2">ثبت نام</button>
